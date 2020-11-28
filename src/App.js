@@ -1,10 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from "react";
 
 import "./App.css";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Mailbox from "./components/pages/Mailbox";
+import Login from "./components/pages/Login";
+import Register from "./components/pages/Register";
+import Dashboard from "./components/pages/Dashboard";
 
 function App() {
   return (
@@ -14,9 +18,10 @@ function App() {
         <Switch>
           <Route path="/offers" />
           <Route path="/requests" />
-          <Route path="/signin" />
-          <Route path="/signup" />
           <Route path="/mailbox" component={Mailbox} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/user/dashboard" component={Dashboard} />
           <Route path="/" />
         </Switch>
         <Footer />
