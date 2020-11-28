@@ -27,7 +27,8 @@ const Mailbox = () => {
       async function getCurrentConversation() {
         if (conversations.length > 0) {
           if (!currentConversation) {
-            setCurrentConversation(conversations[0]._id);
+            // setCurrentConversation(conversations[0]._id);
+            setCurrentConversation(conversations[0]);
           }
         }
       }
@@ -41,13 +42,13 @@ const Mailbox = () => {
       value={{ currentConversation, setCurrentConversation, getConversations }}
     >
       <div className="h-full flex overflow-auto items-start divide-x divide-gray-200 divide-solid p-6">
-        <div className="h-full w-1/4 pr-4 overflow-auto">
+        <div className="h-full w-3/12 overflow-auto">
           <ConversationList conversations={conversations} />
         </div>
-        <div className="h-full flex w-1/2 px-4 overflow-auto">
+        <div className="h-full flex w-5/12 px-4 overflow-auto">
           <ChatScreen />
         </div>
-        <div className="h-full w-1/4 overflow-auto"></div>
+        <div className="h-full w-4/12 overflow-auto"></div>
       </div>
     </MailboxContext.Provider>
   );

@@ -41,6 +41,12 @@ const api = {
       url: `${baseURL}/conversations?user=${userId}`,
     });
   },
+  getItem: (id) => {
+    return ax({
+      method: "GET",
+      url: `${baseURL}/items/${id}`,
+    });
+  },
 };
 
 export default api;

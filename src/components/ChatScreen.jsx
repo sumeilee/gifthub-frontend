@@ -17,9 +17,8 @@ const ChatScreen = () => {
   useEffect(() => {
     async function getMessages() {
       if (currentConversation) {
-        const response = await api.getMessages(currentConversation);
+        const response = await api.getMessages(currentConversation._id);
         const messages = response.data.messages;
-        console.log(messages);
         setMessages(messages);
       }
     }

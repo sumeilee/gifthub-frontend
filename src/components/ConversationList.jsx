@@ -6,19 +6,18 @@ import MailboxContext from "../contexts/MailboxContext";
 const ConversationList = (props) => {
   const { setCurrentConversation } = useContext(MailboxContext);
 
-  const handleClick = async (conversationId) => {
-    setCurrentConversation(conversationId);
+  const handleClick = async (conversation) => {
+    setCurrentConversation(conversation);
   };
 
   return (
     <div className="h-full flex flex-col items-start">
       {props.conversations.map((conversation) => {
-        const { lastMessage } = conversation;
         return (
           <ConversationItem
             onClick={handleClick}
             key={conversation._id}
-            {...lastMessage}
+            conversation={conversation}
           />
         );
       })}
