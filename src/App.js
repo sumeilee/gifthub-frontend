@@ -6,6 +6,14 @@ import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+//User Components
+import Login from "./components/pages/Login";
+import Register from "./components/pages/Register";
+import Dashboard from "./components/pages/Dashboard";
+import Offers from "./components/pages/Offers";
+import Requests from "./components/pages/Requests";
+import Item from "./components/pages/Item";
+
 //Item Components
 import Offers from "./components/pages/Offers";
 import Requests from "./components/pages/Requests";
@@ -27,8 +35,9 @@ class App extends React.Component {
                         <Route path="/items/:id/edit" component={EditItem} />
                         <Route path="/items/:id" component={Item} />
                         {/* User Routes */}
-                        <Route path="/signin" />
-                        <Route path="/signup" />
+                        <Route path="/login" component={Login} />
+                        <Route path="/register" component={Register} />
+                        <Route path="/user/dashboard" component={Dashboard} />
                         <Route path="/" />
                     </Switch>
                     <Footer />
