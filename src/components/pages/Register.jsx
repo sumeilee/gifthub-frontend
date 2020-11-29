@@ -2,6 +2,9 @@ import React from "react";
 import axios from "axios";
 import qs from "qs";
 
+import FormInput from "./../form/FormInput";
+import ErrorMsg from "../ErrorMsg";
+
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -15,38 +18,10 @@ class Register extends React.Component {
       formErr: "",
     };
   }
-  handleFirstNameChange(e) {
-    this.setState({
-      firstName: e.target.value,
-    });
-  }
 
-  handleLastNameChange(e) {
+  handleInputChange(e) {
     this.setState({
-      lastName: e.target.value,
-    });
-  }
-
-  handleEmailChange(e) {
-    this.setState({
-      email: e.target.value,
-    });
-  }
-
-  handlePasswrdChange(e) {
-    this.setState({
-      password: e.target.value,
-    });
-  }
-
-  handleUserTypeChange(e) {
-    this.setState({
-      userType: e.target.value,
-    });
-  }
-  handleOrganisationChange(e) {
-    this.setState({
-      organisation: e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -68,7 +43,7 @@ class Register extends React.Component {
       .then((response) => {
         if (!response.data.success) {
           this.setState({
-            formErr: "Error occurred in form, please check values",
+            formErr: "Error in form, please check values",
           });
           return;
         }
@@ -78,108 +53,110 @@ class Register extends React.Component {
 
       .catch((err) => {
         this.setState({
-          formErr: "Error occurred in form, please check values",
+          formErr: "Error in form, please check values",
         });
       });
   }
 
   render() {
     return (
-      <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8max-w-md w-full space-y-8">
-        <div className="max-w-md w-full space-y-8">
-          <form
-            className="mt-5 mb-5"
-            onSubmit={(e) => {
-              this.handleFormSubmission(e);
+      <div className="flex flex-col items-center justify-center">
+        <form
+          className="flex flex-col items-center py-6"
+          onSubmit={(e) => {
+            this.handleFormSubmission(e);
+          }}
+        >
+          <FormInput
+            type="text"
+            label="First Name"
+            name="firstName"
+            id="firstName"
+            onChange={(e) => {
+              this.handleInputChange(e);
             }}
+          />
+
+          <FormInput
+            type="text"
+            label="Last Name"
+            name="lastName"
+            id="lastName"
+            onChange={(e) => {
+              this.handleInputChange(e);
+            }}
+          />
+
+          <FormInput
+            type="email"
+            label="Email"
+            name="email"
+            id="email"
+            onChange={(e) => {
+              this.handleInputChange(e);
+            }}
+          />
+
+          <FormInput
+            type="password"
+            label="Password"
+            name="password"
+            id="password"
+            onChange={(e) => {
+              this.handleInputChange(e);
+            }}
+          />
+
+          <div className="flex flex-col m-2 items-center sm:flex-row sm:flex-wrap sm:m-4">
+            <label
+              htmlFor="userType"
+              className="w-32 text-center mb-2 sm:text-left sm:pl-1 sm:m-0"
+            >
+              User Type
+            </label>
+            <select
+              defaultValue={"default"}
+              id="userType"
+              onChange={(e) => {
+                this.handleInputChange(e);
+              }}
+              className="w-64 border border-gray-300 rounded-lg outline-none py-2 px-3"
+              name="userType"
+            >
+              <option value="default" disabled>
+                Please select
+              </option>
+              <option value="requestor">Requestor</option>
+              <option value="donor">Donor</option>
+            </select>
+          </div>
+
+          {this.state.userType === "requestor" ? (
+            <FormInput
+              type="text"
+              label="Organisation"
+              name="organisation"
+              id="organisation"
+              onChange={(e) => {
+                this.handleInputChange(e);
+              }}
+            />
+          ) : (
+            ""
+          )}
+
+          {this.state.formErr !== "" ? (
+            <ErrorMsg msg={this.state.formErr} />
+          ) : (
+            ""
+          )}
+          <button
+            type="submit"
+            className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
           >
-            <div className="mt-8 space-y-6">
-              <div class="rounded-md space-y-px">
-                <label htmlFor="firstName" className="sr-only">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  onChange={(e) => {
-                    this.handleFirstNameChange(e);
-                  }}
-                  className="form-control"
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                type="text"
-                onChange={(e) => {
-                  this.handleLastNameChange(e);
-                }}
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email address</label>
-              <input
-                type="email"
-                onChange={(e) => {
-                  this.handleEmailChange(e);
-                }}
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="exampleInputPassword1">Password</label>
-              <input
-                type="password"
-                onChange={(e) => {
-                  this.handlePasswrdChange(e);
-                }}
-                className="form-control"
-                id="exampleInputPassword1"
-              />
-            </div>
-
-            <div className="form-group col-md-4">
-              <label for="userType">User type</label>
-              <select
-                id="userType"
-                onChange={(e) => {
-                  this.handleUserTypeChange(e);
-                }}
-                className="form-control"
-              >
-                <option selected>Please select</option>
-                <option>requestor</option>
-                <option>donor</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="organisation">Organisation (if applicable)</label>
-              <input
-                type="text"
-                onChange={(e) => {
-                  this.handleOrganisationChange(e);
-                }}
-                className="form-control"
-                id="organisation"
-              />
-            </div>
-
-            {this.state.formErr !== "" ? (
-              <div className="form-group">
-                <p>{this.state.formErr}</p>
-              </div>
-            ) : (
-              ""
-            )}
-            <button type="submit" className="btn btn-primary">
-              Register
-            </button>
-          </form>
-        </div>
+            Register
+          </button>
+        </form>
       </div>
     );
   }
