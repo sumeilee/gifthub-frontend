@@ -6,10 +6,12 @@ import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+//Item Components
 import Offers from "./components/pages/Offers";
 import Requests from "./components/pages/Requests";
 import Item from "./components/pages/Item";
 import NewItem from "./components/pages/item/NewItem";
+import EditItem from "./components/pages/item/EditItem";
 
 class App extends React.Component {
     render() {
@@ -18,11 +20,13 @@ class App extends React.Component {
                 <Router>
                     <Header />
                     <Switch>
-                        {/* Amend */}
+                        {/* Item Routes */}
                         <Route path="/offers" component={Offers} />
                         <Route path="/requests" component={Requests} />
+                        <Route path="/items/new" component={NewItem} />
+                        <Route path="/items/:id/edit" component={EditItem} />
                         <Route path="/items/:id" component={Item} />
-                        {/* <Route path="/newitem" component={NewItem} /> */}
+                        {/* User Routes */}
                         <Route path="/signin" />
                         <Route path="/signup" />
                         <Route path="/" />

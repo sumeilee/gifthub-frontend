@@ -19,6 +19,10 @@ class Item extends React.Component {
         };
     }
 
+    getItem(itemID) {
+        return axios.get("http://localhost:5000/api/v1/items/" + itemID);
+    }
+
     componentDidMount() {
         const itemID = this.props.match.params.id;
         console.log(itemID);
@@ -30,10 +34,6 @@ class Item extends React.Component {
                 user: user, //to update later
             });
         });
-    }
-
-    getItem(itemID) {
-        return axios.get("http://localhost:5000/api/v1/items/" + itemID);
     }
 
     render() {
@@ -94,7 +94,7 @@ class Item extends React.Component {
                         </div>
                         <br />
                         <hr />
-                        {/* <Donate user={this.state.user} /> */}
+                        <Donate user={this.state.user} />
                     </div>
                 ) : (
                     <p>No such item found.</p>
