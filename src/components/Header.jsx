@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 class Header extends React.Component {
   constructor(props) {
@@ -76,16 +76,16 @@ class Header extends React.Component {
             Requests
           </Link>
           <Link
-            to="/signin"
+            to="/login"
             className="block text-white font-semibold mx-3 my-1 px-4 py-2 rounded hover:bg-pink-700"
           >
-            Sign In
+            Login
           </Link>
           <Link
-            to="/signup"
+            to="/register"
             className="block text-gray-800 font-semibold mx-3 my-1 px-4 py-2 rounded bg-yellow-300 hover:bg-yellow-400"
           >
-            Sign Up
+            Register
           </Link>
         </div>
       </div>
