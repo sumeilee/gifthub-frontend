@@ -43,7 +43,7 @@ class Item extends React.Component {
                     <div className="container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
                         <div className="grid grid-cols-3 gap-8">
                             <div className="col-span-2">
-                                <p className="text-lg font-bold tracking-wider">
+                                <p className="text-base font-bold tracking-wider">
                                     {this.state.item.title}
                                 </p>
                                 <p>
