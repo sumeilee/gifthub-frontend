@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import MailboxContext from "../contexts/MailboxContext";
+import MailboxContext from "../../contexts/MailboxContext";
 
-import api from "../services/api";
+import api from "../../services/api";
 
 const ConversationItem = ({ conversation, onClick }) => {
   const { currentConversation } = useContext(MailboxContext);

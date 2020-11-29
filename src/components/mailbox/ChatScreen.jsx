@@ -3,8 +3,8 @@ import React, { useState, useContext, useEffect } from "react";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 
-import MailboxContext from "../contexts/MailboxContext";
-import api from "../services/api";
+import MailboxContext from "../../contexts/MailboxContext";
+import api from "../../services/api";
 
 const ChatScreen = () => {
   const { currentConversation } = useContext(MailboxContext);

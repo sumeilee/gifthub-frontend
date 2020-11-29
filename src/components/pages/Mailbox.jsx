@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import ConversationList from "../ConversationList";
-import ChatScreen from "../ChatScreen";
+import ConversationList from "../mailbox/ConversationList";
+import ChatScreen from "../mailbox/ChatScreen";
 import api from "../../services/api";
 
 import MailboxContext from "../../contexts/MailboxContext";

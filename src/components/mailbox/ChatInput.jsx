@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 
-import api from "../services/api";
+import api from "../../services/api";
 
-import MailboxContext from "../contexts/MailboxContext";
+import MailboxContext from "../../contexts/MailboxContext";
 
 const ChatInput = (props) => {
   const { currentConversation, getConversations } = useContext(MailboxContext);

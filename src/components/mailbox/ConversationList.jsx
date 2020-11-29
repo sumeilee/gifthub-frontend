@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import ConversationItem from "./ConversationItem";
 
-import MailboxContext from "../contexts/MailboxContext";
+import MailboxContext from "../../contexts/MailboxContext";
 
 const ConversationList = (props) => {
   const { setCurrentConversation } = useContext(MailboxContext);
