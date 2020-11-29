@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Offers from "./components/pages/Offers";
 import Requests from "./components/pages/Requests";
 import Item from "./components/pages/Item";
+import NewItem from "./components/pages/item/NewItem";
 
 class App extends React.Component {
     render() {
@@ -21,6 +22,7 @@ class App extends React.Component {
                         <Route path="/offers" component={Offers} />
                         <Route path="/requests" component={Requests} />
                         <Route path="/items/:id" component={Item} />
+                        {/* <Route path="/newitem" component={NewItem} /> */}
                         <Route path="/signin" />
                         <Route path="/signup" />
                         <Route path="/" />
