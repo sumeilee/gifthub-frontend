@@ -37,7 +37,6 @@ class App extends React.Component {
                         <Route path="/items/:id" component={Item} />
                         <Route path="/mailbox" component={Mailbox} />
 
-
                         {/* User Routes */}
                         <Route path="/login" component={Login} />
                         <Route path="/register" component={Register} />
