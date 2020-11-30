@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Header extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class Header extends React.Component {
             <button
               type="button"
               onClick={() => this.handleMenuClick()}
-              className="block block text-gray-100 hover:block text-white focus:block text-white"
+              className="block text-gray-100 text-white text-white focus:outline-none"
             >
               <svg
                 className="fill-current h-4 w-6"
