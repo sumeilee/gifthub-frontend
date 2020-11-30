@@ -5,6 +5,7 @@ import "./App.css";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Mailbox from "./components/pages/Mailbox";
 
 //User Components
 import Login from "./components/pages/Login";
@@ -34,6 +35,8 @@ class App extends React.Component {
                         <Route path="/items/new" component={NewItem} />
                         <Route path="/items/:id/edit" component={EditItem} />
                         <Route path="/items/:id" component={Item} />
+                        <Route path="/mailbox" component={Mailbox} />
+
 
                         {/* User Routes */}
                         <Route path="/login" component={Login} />
