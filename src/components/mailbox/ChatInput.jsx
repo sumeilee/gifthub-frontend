@@ -5,14 +5,16 @@ import api from "../../services/api";
 import MailboxContext from "../../contexts/MailboxContext";
 
 const ChatInput = (props) => {
-  const { currentConversation, getConversations } = useContext(MailboxContext);
+  const { currentConversation, getConversations, me } = useContext(
+    MailboxContext
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const message = e.target.chatBox.value;
     const attachments = "";
-    const author = "5fb8b003e1e86a126a37520d";
+    const author = me.id;
 
     if (message) {
       const response = await api.createMessage(

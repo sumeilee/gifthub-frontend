@@ -41,21 +41,28 @@ const ConversationItem = ({ conversation, onClick }) => {
       }`}
     >
       <h3 className="font-semibold text-gray-800 mb-1">{itemTitle}</h3>
-      <h4 className="font-semibold text-gray-600 text-xs">
-        {conversation.lastMessage.author
-          ? `${conversation.lastMessage.author.first_name} ${conversation.lastMessage.author.last_name}`
-          : ""}
-      </h4>
-      <div className="flex flex-wrap items-center justify-between">
-        <div className="w-4/5">
-          <p className="font-light truncate mr-2">
-            {conversation.lastMessage.message}
-          </p>
-        </div>
-        <div className="text-xs text-gray-500">
-          {displayDate(conversation.lastMessage.updatedAt)}
-        </div>
-      </div>
+
+      {conversation.lastMessage ? (
+        <>
+          <h4 className="font-semibold text-gray-600 text-xs">
+            {conversation.lastMessage.author
+              ? `${conversation.lastMessage.author.first_name} ${conversation.lastMessage.author.last_name}`
+              : ""}
+          </h4>
+          <div className="flex flex-wrap items-center justify-between">
+            <div className="w-4/5">
+              <p className="font-light truncate mr-2">
+                {conversation.lastMessage.message}
+              </p>
+            </div>
+            <div className="text-xs text-gray-500">
+              {displayDate(conversation.lastMessage.updatedAt)}
+            </div>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
