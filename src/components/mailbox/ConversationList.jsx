@@ -11,7 +11,7 @@ const ConversationList = (props) => {
   };
 
   return (
-    <div className="h-full flex flex-col items-start">
+    <div className="h-full flex flex-col items-start divide-y divide-gray-200 divide-solid">
       {props.conversations.map((conversation) => {
         return (
           <ConversationItem

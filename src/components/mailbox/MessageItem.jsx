@@ -1,7 +1,6 @@
 import React from "react";
 
 const MessageItem = ({ message }) => {
-  console.log(message);
   return (
     <div className="w-full my-2">
       <div className="flex items-baseline">

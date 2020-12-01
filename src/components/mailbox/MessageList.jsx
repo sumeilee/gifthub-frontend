@@ -18,12 +18,11 @@ const MessageList = ({ messages }) => {
   const msgRef = React.createRef();
 
   const other = currentConversation
-    ? currentConversation.users.filter((user) => user._id !== me._id)[0]
+    ? currentConversation.users.filter((user) => user._id !== me.id)[0]
     : null;
 
   let currentDate;
 
-  console.log(messages);
   const getDateString = (dateObj) => {
     return dateObj.toLocaleDateString("en-US");
   };
@@ -48,7 +47,6 @@ const MessageList = ({ messages }) => {
 
       {messages
         ? messages.map((message, idx) => {
-            console.log(message);
             const postedDate = new Date(message.postedAt);
 
             if (

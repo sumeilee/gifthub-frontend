@@ -5,10 +5,14 @@ import MailboxContext from "../../contexts/MailboxContext";
 import api from "../../services/api";
 
 const ConversationItem = ({ conversation, onClick }) => {
-  const { currentConversation } = useContext(MailboxContext);
+  const { currentConversation, me } = useContext(MailboxContext);
   const [itemTitle, setItemTitle] = useState("");
 
   const currentYear = new Date().getFullYear();
+
+  const other = conversation
+    ? conversation.users.filter((user) => user._id !== me.id)[0]
+    : null;
 
   useEffect(() => {
     async function getItem() {
@@ -34,25 +38,28 @@ const ConversationItem = ({ conversation, onClick }) => {
   return (
     <div
       onClick={() => onClick(conversation)}
-      className={`w-full py-2 pl-3 pr-6 mb-2 cursor-pointer ${
+      className={`w-full py-3 pl-3 pr-6 cursor-pointer ${
         currentConversation && currentConversation._id === conversation._id
           ? "bg-gray-100"
           : ""
       }`}
     >
-      <h3 className="font-semibold text-gray-800 mb-1">{itemTitle}</h3>
+      <h4 className="text-gray-600 text-xs">
+        {`${other.first_name} ${other.last_name}`}
+      </h4>
+      <h3 className="font-semibold text-gray-800 truncate">{itemTitle}</h3>
 
       {conversation.lastMessage ? (
         <>
-          <h4 className="font-semibold text-gray-600 text-xs">
-            {conversation.lastMessage.author
-              ? `${conversation.lastMessage.author.first_name} ${conversation.lastMessage.author.last_name}`
-              : ""}
-          </h4>
           <div className="flex flex-wrap items-center justify-between">
             <div className="w-4/5">
-              <p className="font-light truncate mr-2">
-                {conversation.lastMessage.message}
+              <p className="font-light truncate mr-2 mt-1">
+                {conversation.lastMessage.author
+                  ? conversation.lastMessage.author === me.id
+                    ? `${conversation.lastMessage.author.first_name}`
+                    : "You"
+                  : ""}
+                : {conversation.lastMessage.message}
               </p>
             </div>
             <div className="text-xs text-gray-500">
@@ -67,6 +74,11 @@ const ConversationItem = ({ conversation, onClick }) => {
   );
 };
 
+/* <h4 className="font-semibold text-gray-600 text-xs">
+            {conversation.lastMessage.author
+              ? `${conversation.lastMessage.author.first_name} ${conversation.lastMessage.author.last_name}`
+              : ""}
+          </h4> */
 // {new Date(props.updatedAt).toLocaleString("en-GB", {
 //   day: "numeric",
 //   month: "short",

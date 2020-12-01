@@ -41,6 +41,26 @@ const api = {
       url: `${baseURL}/conversations?user=${userId}`,
     });
   },
+  getConversationsByUsersAndItem: (usersArr, item) => {
+    const users = usersArr.join(",");
+    // console.log(users);
+    return ax({
+      method: "GET",
+      url: `${baseURL}/conversations?users=${users}&item=${item}`,
+    });
+  },
+  createConversation: (users, item) => {
+    const data = {
+      users,
+      item,
+    };
+    // console.log(data);
+    return ax({
+      method: "POST",
+      url: `${baseURL}/conversations`,
+      data,
+    });
+  },
   getItem: (id) => {
     return ax({
       method: "GET",

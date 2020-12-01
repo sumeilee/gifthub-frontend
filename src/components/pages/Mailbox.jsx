@@ -20,6 +20,7 @@ const Mailbox = (props) => {
       if (me) {
         const response = await api.getConversationsByUser(me.id);
         const conversations = response.data.conversations;
+        // console.log(conversations);
         setConversations(conversations);
       }
     } catch (err) {
