@@ -51,7 +51,8 @@ class Login extends React.Component {
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
 
-        this.props.history.push("/user/dashboard");
+        // this.props.history.push("/user/dashboard");
+        window.location.reload();
       })
       .catch((err) => {
         this.setState({
@@ -62,34 +63,45 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="page-login">
-        <div className="container">
+      <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8max-w-md w-full space-y-8">
+        <div className="max-w-md w-full space-y-8">
+          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Login</h2>
+
           <form
             className="mt-5 mb-5"
             onSubmit={(e) => {
               this.handleFormSubmission(e);
             }}
           >
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Email address</label>
+            <div className="mt-8 space-y-6">
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
               <input
                 type="email"
+                placeholder="Email address"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
                   this.handleEmailChange(e);
                 }}
-                className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="exampleInputPassword1">Password</label>
+
+            <div className="mt-8 space-y-6">
+              <label htmlFor="exampleInputPassword1" className="sr-only">
+                Password
+              </label>
               <input
                 type="password"
+                placeholder="Password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
                   this.handlePasswrdChange(e);
                 }}
-                className="form-control"
                 id="exampleInputPassword1"
               />
             </div>
@@ -100,7 +112,10 @@ class Login extends React.Component {
             ) : (
               ""
             )}
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className=" mt-8 space-y-6 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-yellow-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
               Login
             </button>
           </form>

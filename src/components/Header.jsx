@@ -1,5 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import {withCookies} from "react-cookie";
+import {withRouter} from "react-router-dom";
 
 class Header extends React.Component {
   constructor(props) {
@@ -7,13 +10,40 @@ class Header extends React.Component {
 
     this.state = {
       isMenuOpen: false,
+      user: "",
     };
+  }
+  componentDidMount() {
+    if (this.props.cookies.get("token") !== "") {
+      axios
+        .get("http://localhost:5000/api/v1/users/me", {
+          headers: {
+            auth_token: this.props.cookies.get("token"),
+          },
+        })
+        .then((result) => {
+          console.log(result);
+          if (result.data.success) {
+            console.log(result.data.success);
+            this.setState({
+              user: result.data.user,
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   handleMenuClick() {
     this.setState({
       isMenuOpen: !this.state.isMenuOpen,
     });
+  }
+
+  handleLogout(e) {
+    e.preventDefault();
+    this.props.cookies.remove("token", {path: "/"});
+    window.location.href = "/";
   }
 
   render() {
@@ -75,22 +105,60 @@ class Header extends React.Component {
           >
             Requests
           </Link>
-          <Link
-            to="/login"
-            className="block text-white font-semibold mx-3 my-1 px-4 py-2 rounded hover:bg-pink-700"
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="block text-gray-800 font-semibold mx-3 my-1 px-4 py-2 rounded bg-yellow-300 hover:bg-yellow-400"
-          >
-            Register
-          </Link>
+          {!this.state.user ? (
+            <div
+              className={`${
+                this.state.isMenuOpen ? "block" : "hidden"
+              } py-2 sm:block sm:flex sm:items-center`}
+            >
+              <Link
+                to="/login"
+                className="block text-white font-semibold mx-3 my-1 px-4 py-2 rounded hover:bg-pink-700"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="block text-gray-800 font-semibold mx-3 my-1 px-4 py-2 rounded bg-yellow-300 hover:bg-yellow-400"
+              >
+                Register
+              </Link>
+            </div>
+          ) : (
+            <div
+              className={`${
+                this.state.isMenuOpen ? "block" : "hidden"
+              } py-2 sm:block sm:flex sm:items-center`}
+            >
+              <Link
+                to="/user/editprofile"
+                className="block text-white font-semibold mx-3 my-1 px-4 py-2 rounded hover:bg-pink-700"
+              >
+                Edit profile
+              </Link>
+
+              <a
+                href="/"
+                onClick={(e) => {
+                  this.handleLogout(e);
+                }}
+                className="block text-white font-semibold mx-3 my-1 px-4 py-2 rounded hover:bg-pink-700"
+              >
+                Logout
+              </a>
+
+              <Link
+                to="/user/dashboard"
+                className="block text-gray-800 font-semibold mx-3 my-1 px-4 py-2 rounded bg-yellow-300 hover:bg-yellow-400"
+              >
+                Dashboard
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default Header;
+export default withRouter(withCookies(Header));

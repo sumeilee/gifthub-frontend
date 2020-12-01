@@ -21,7 +21,7 @@ class GuestRoute extends React.Component {
   render() {
     const Comp = this.props.component;
 
-    return this.isAuthenticated() ? <Redirect to="/users/dashboard" /> : <Comp />;
+    return this.isAuthenticated() ? <Redirect to="/user/dashboard" /> : <Comp />;
   }
 }
 

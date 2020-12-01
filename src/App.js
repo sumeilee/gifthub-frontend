@@ -6,8 +6,12 @@ import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./components/pages/Login";
+
 import Register from "./components/pages/Register";
 import Dashboard from "./components/pages/Dashboard";
+import EditProfile from "./components/pages/EditProfile";
+import ProtectedRoute from "./components/ProtectedRoute";
+import GuestRoute from "./components/GuestRoute";
 
 function App() {
   return (
@@ -15,12 +19,13 @@ function App() {
       <Router>
         <Header />
         <Switch>
+          <GuestRoute path="/login" component={Login} />
           <Route path="/offers" />
           <Route path="/requests" />
-          <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Route path="/user/dashboard" component={Dashboard} />
 
+          <ProtectedRoute path="/user/dashboard" component={Dashboard} />
+          <ProtectedRoute path="/user/editprofile" component={EditProfile} />
           <Route path="/" />
         </Switch>
         <Footer />

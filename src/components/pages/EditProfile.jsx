@@ -1,11 +1,13 @@
 import React from "react";
 import axios from "axios";
 import qs from "qs";
+import {withCookies} from "react-cookie";
 
-class Register extends React.Component {
+class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: "",
       firstName: "",
       lastName: "",
       userType: "",
@@ -15,6 +17,19 @@ class Register extends React.Component {
       formErr: "",
     };
   }
+  componentDidMount() {
+    axios
+      .get("http://localhost:5000/api/v1/users/me")
+
+      .then((result) => {
+        console.log(result);
+        this.setState({
+          user: result.data.user,
+        });
+      })
+      .catch((err) => console.log(err));
+  }
+
   handleFirstNameChange(e) {
     this.setState({
       firstName: e.target.value,
@@ -54,26 +69,33 @@ class Register extends React.Component {
     e.preventDefault();
 
     axios
-      .post(
-        "http://localhost:5000/api/v1/user/register",
+      .patch(
+        "http://localhost:5000/api/v1/users/me",
+        {
+          headers: {
+            auth_token: this.props.cookies.get("token"),
+          },
+        },
+
         qs.stringify({
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          email: this.state.email,
-          password: this.state.password,
-          userType: this.state.userType,
-          organisation: this.state.organisation,
+          firstName: this.state.user.firstName,
+          lastName: this.state.user.lastName,
+          email: this.state.user.email,
+          password: this.state.user.password,
+          userType: this.state.user.userType,
+          organisation: this.state.user.organisation,
         })
       )
       .then((response) => {
         if (!response.data.success) {
+          console.log(response);
           this.setState({
             formErr: "Error occurred in form, please check values",
           });
           return;
         }
 
-        this.props.history.push("/login");
+        this.props.history.push("/user/dashboard");
       })
 
       .catch((err) => {
@@ -87,9 +109,7 @@ class Register extends React.Component {
     return (
       <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8max-w-md w-full space-y-8">
         <div className="max-w-md w-full space-y-8">
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Register now to get started
-          </h2>
+          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Edit Profile</h2>
           <form
             className="mt-5 mb-5"
             onSubmit={(e) => {
@@ -99,12 +119,11 @@ class Register extends React.Component {
             <div className="mt-8 space-y-6">
               <div className="rounded-md space-y-px">
                 <label htmlFor="firstName" className="sr-only">
-                  First Name
+                  {this.state.firstName}
                 </label>
                 <input
                   type="text"
-                  placeholder="First Name"
-                  required
+                  placeholder={this.state.user.first_name}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   onChange={(e) => {
                     this.handleFirstNameChange(e);
@@ -113,13 +132,10 @@ class Register extends React.Component {
               </div>
             </div>
             <div className="mt-8 space-y-6">
-              <label htmlFor="lastName" className="sr-only">
-                Last Name
-              </label>
+              <label htmlFor="lastName" className="sr-only"></label>
               <input
                 type="text"
-                placeholder="Last Name"
-                required
+                placeholder={this.state.user.last_name}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
                   this.handleLastNameChange(e);
@@ -127,13 +143,10 @@ class Register extends React.Component {
               />
             </div>
             <div className="mt-8 space-y-6">
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
+              <label htmlFor="email" className="sr-only"></label>
               <input
                 type="email"
-                placeholder="Email address"
-                required
+                placeholder="New email"
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
                   this.handleEmailChange(e);
@@ -143,13 +156,10 @@ class Register extends React.Component {
               />
             </div>
             <div className="mt-8 space-y-6">
-              <label htmlFor="exampleInputPassword1" className="sr-only">
-                Password
-              </label>
+              <label htmlFor="exampleInputPassword1" className="sr-only"></label>
               <input
                 type="password"
-                placeholder="Password"
-                required
+                placeholder=" New Password"
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
                   this.handlePasswrdChange(e);
@@ -160,11 +170,11 @@ class Register extends React.Component {
 
             <div className="mt-8 space-y-6">
               <label for="userType" className="sr-only">
-                User type
+                {this.state.userType}
               </label>
               <select
                 id="userType"
-                placeholder="Please select user type"
+                placeholder={this.state.userType}
                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 onChange={(e) => {
                   this.handleUserTypeChange(e);
@@ -182,7 +192,6 @@ class Register extends React.Component {
               <input
                 type="text"
                 placeholder="Organisation (if applicable)"
-                required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
                   this.handleOrganisationChange(e);
@@ -202,7 +211,7 @@ class Register extends React.Component {
               type="submit"
               className=" mt-8 space-y-6 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-yellow-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Register
+              Update
             </button>
           </form>
         </div>
@@ -211,4 +220,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default withCookies(EditProfile);
