@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 // import css later
 // import Item from "./Item";
@@ -84,25 +85,31 @@ class Requests extends React.Component {
                                             <p>Status: {element.status}</p>
                                             <p>Delivery: {element.delivery}</p>
                                             <br />
-                                            <button
-                                                type="submit"
-                                                className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300"
+                                            <Link
+                                                to={{
+                                                    pathname: `/items/${element._id}`,
+                                                    state: {
+                                                        showDonate: true,
+                                                    },
+                                                }}
+                                                className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                                             >
                                                 Donate
-                                            </button>
-                                            {/* <span> </span> */}
+                                            </Link>
                                             <button
                                                 type="submit"
                                                 className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
                                             >
                                                 Chat
                                             </button>
-                                            <button
-                                                type="submit"
-                                                className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
+                                            <Link
+                                                to={{
+                                                    pathname: `/items/${element._id}/edit`,
+                                                }}
+                                                className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                                             >
                                                 Edit
-                                            </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

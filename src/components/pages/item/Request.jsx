@@ -1,7 +1,7 @@
 import React from "react";
 // import css later
 
-class Donate extends React.Component {
+class Request extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,12 +18,15 @@ class Donate extends React.Component {
                 <hr />
                 <br />
                 <p className="text-xl font-bold text-center text-green-600">
-                    Yes, I wish to donate! :)
+                    Yes, I would like to request for the item!
                 </p>
                 <br />
                 <p className="text-base font-medium text-gray-700">
                     Name: {this.props.user.first_name}{" "}
                     {this.props.user.last_name}
+                </p>
+                <p className="text-base font-medium text-gray-700">
+                    Organisation: {this.props.user.organisation}
                 </p>
                 {/* <form> */}
                 {/* //=== Delivery Date ==== // */}
@@ -44,35 +47,18 @@ class Donate extends React.Component {
                         max="2020-12-31"
                     />
                 </div>
-                {/* //=== Images ==== // */}
+                {/* //=== Reason ==== // */}
                 <div className="mt-2">
                     <label
-                        htmlFor="images"
-                        className="text-base font-medium text-gray-700"
-                    >
-                        Please upload a photo of item to be donated for
-                        verification.
-                    </label>
-
-                    <input
-                        type="file"
-                        className="form-control-file"
-                        id="images"
-                        name="images"
-                    />
-                </div>
-                {/* //=== Description ==== // */}
-                <div className="mt-2">
-                    <label
-                        htmlFor="description"
+                        htmlFor="reason"
                         className="inline-flex text-base font-medium text-gray-700"
                     >
-                        Description of Item:
+                        Reason for Request:
                     </label>{" "}
                     <textarea
                         className="mt-1 inline-flex w-full text-base border-2 border-gray-300 rounded-md"
-                        id="description"
-                        name="description"
+                        id="reason"
+                        name="reason"
                         rows="3"
                         placeholder=""
                     ></textarea>
@@ -136,4 +122,4 @@ class Donate extends React.Component {
     }
 }
 
-export default Donate;
+export default Request;

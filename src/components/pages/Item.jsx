@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Donate from "./item/Donate";
+import Request from "./item/Request";
 // import css later
 
 // temp seed data, to link to API later
@@ -8,6 +10,7 @@ const user = {
     _id: "5fb8b003e1e86a126a37520d",
     first_name: "Monica",
     last_name: "Bing",
+    organisation: "Alexandro",
 };
 
 class Item extends React.Component {
@@ -16,11 +19,13 @@ class Item extends React.Component {
         this.state = {
             item: null,
             user: null, //to update later
+            itemID: null,
+            showDonate: this.props.showDonate || false, // not working, to check
+            showRequest: this.props.showRequest || false,
+            // showClick: true,
         };
-    }
-
-    getItem(itemID) {
-        return axios.get("http://localhost:5000/api/v1/items/" + itemID);
+        this.handleDonateClick = this.handleDonateClick.bind(this);
+        this.handleRequestClick = this.handleRequestClick.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +37,24 @@ class Item extends React.Component {
             this.setState({
                 item: response.data,
                 user: user, //to update later
+                itemID: itemID,
             });
+        });
+    }
+
+    getItem(itemID) {
+        return axios.get("http://localhost:5000/api/v1/items/" + itemID);
+    }
+
+    handleDonateClick() {
+        this.setState({
+            showDonate: !this.state.showDonate,
+        });
+    }
+
+    handleRequestClick() {
+        this.setState({
+            showRequest: !this.state.showRequest,
         });
     }
 
@@ -72,29 +94,54 @@ class Item extends React.Component {
                                 <p>Status: {this.state.item.status}</p>
                                 <p>Delivery: {this.state.item.delivery}</p>
                                 <br />
-                                <button
-                                    type="submit"
-                                    className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300"
-                                >
-                                    Donate
-                                </button>
+                                {this.state.item.postType === "Request" ? (
+                                    <button
+                                        onClick={this.handleDonateClick}
+                                        className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300"
+                                    >
+                                        Donate
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={this.handleRequestClick}
+                                        className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300"
+                                    >
+                                        Request
+                                    </button>
+                                )}
                                 <button
                                     type="submit"
                                     className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
                                 >
                                     Chat
                                 </button>
-                                <button
-                                    type="submit"
-                                    className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
+                                <Link
+                                    to={{
+                                        pathname: `/items/${this.state.itemID}/edit`,
+                                    }}
+                                    className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                                 >
                                     Edit
-                                </button>
+                                </Link>
                             </div>
                         </div>
                         <br />
-                        <hr />
-                        <Donate user={this.state.user} />
+                        {/* // Toggle Donate Btn */}
+                        {this.state.showDonate ? (
+                            <Donate user={this.state.user} />
+                        ) : null}
+
+                        {/* // Toggle Request Btn */}
+                        {this.state.showRequest ? (
+                            <Request user={this.state.user} />
+                        ) : null}
+
+                        {/* {this.state.showClick &&
+                        this.state.item.postType === "Request" ? (
+                            <Donate user={this.state.user} />
+                        ) : (
+                            <Request user={this.state.user} />
+                        )} */}
                     </div>
                 ) : (
                     <p>No such item found.</p>
