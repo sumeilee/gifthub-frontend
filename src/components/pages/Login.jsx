@@ -5,6 +5,9 @@ import moment from "moment";
 import {withCookies} from "react-cookie";
 import {withRouter} from "react-router-dom";
 
+import FormInput from "./../form/FormInput";
+import ErrorMsg from "../ErrorMsg";
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -15,21 +18,15 @@ class Login extends React.Component {
     };
   }
 
-  handleEmailChange(e) {
+  handleInputChange(e) {
     this.setState({
-      email: e.target.value,
-    });
-  }
-
-  handlePasswrdChange(e) {
-    this.setState({
-      password: e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
   handleFormSubmission(e) {
     e.preventDefault();
-
+    console.log(this.state);
     axios
       .post(
         "http://localhost:5000/api/v1/user/login",
@@ -56,70 +53,48 @@ class Login extends React.Component {
       })
       .catch((err) => {
         this.setState({
-          formErr: "Error occurred in form, please check values",
+          formErr: "Error in form, please check values",
         });
       });
   }
 
   render() {
     return (
-      <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8max-w-md w-full space-y-8">
-        <div className="max-w-md w-full space-y-8">
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Login</h2>
-
-          <form
-            className="mt-5 mb-5"
-            onSubmit={(e) => {
-              this.handleFormSubmission(e);
+      <div className="h-full flex justify-center items-center">
+        <form
+          className="flex flex-col items-center py-6"
+          onSubmit={(e) => {
+            this.handleFormSubmission(e);
+          }}
+        >
+          <FormInput
+            type="email"
+            label="Email"
+            name="email"
+            id="email"
+            onChange={(e) => {
+              this.handleInputChange(e);
             }}
-          >
-            <div className="mt-8 space-y-6">
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                type="email"
-                placeholder="Email address"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                onChange={(e) => {
-                  this.handleEmailChange(e);
-                }}
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-              />
-            </div>
+          />
 
-            <div className="mt-8 space-y-6">
-              <label htmlFor="exampleInputPassword1" className="sr-only">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="Password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                onChange={(e) => {
-                  this.handlePasswrdChange(e);
-                }}
-                id="exampleInputPassword1"
-              />
-            </div>
-            {this.state.formErr !== "" ? (
-              <div className="form-group">
-                <p>{this.state.formErr}</p>
-              </div>
-            ) : (
-              ""
-            )}
-            <button
-              type="submit"
-              className=" mt-8 space-y-6 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-yellow-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Login
-            </button>
-          </form>
-        </div>
+          <FormInput
+            type="password"
+            label="Password"
+            name="password"
+            id="password"
+            onChange={(e) => {
+              this.handleInputChange(e);
+            }}
+          />
+
+          {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
+          <button
+            type="submit"
+            className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
+          >
+            Login
+          </button>
+        </form>
       </div>
     );
   }
