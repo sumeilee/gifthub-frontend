@@ -70,6 +70,7 @@ class Offers extends React.Component {
         <div>
           {this.state.list.length > 0 ? (
             this.state.list.map((element) => {
+              console.log(element);
               return (
                 <React.Fragment key={element._id}>
                   <div className="container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
@@ -102,7 +103,10 @@ class Offers extends React.Component {
                         <br />
                         <p>
                           {/* to change to first & last name */}
-                          Posted By: {element.postedBy}
+                          Posted By:{" "}
+                          {element.postedBy
+                            ? `${element.postedBy.first_name} ${element.postedBy.last_name}`
+                            : ""}
                         </p>
                       </div>
                       <div className="col2">

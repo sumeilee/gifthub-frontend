@@ -102,7 +102,10 @@ class Requests extends React.Component {
                       <p>
                         {/* to change to first & last name */}
                         {/* try .populate in backend */}
-                        Posted By: {element.postedBy}
+                        Posted By:{" "}
+                        {element.postedBy
+                          ? `${element.postedBy.first_name} ${element.postedBy.last_name}`
+                          : ""}
                       </p>
                     </div>
                     <div className="col2">
