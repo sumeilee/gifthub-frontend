@@ -43,6 +43,7 @@ class Offers extends React.Component {
 
   async handleChatClick(users, item) {
     try {
+      console.log(users);
       const conversation = await api.getOrCreateConversation(users, item);
       // setCurrentConversation(conversation);
 

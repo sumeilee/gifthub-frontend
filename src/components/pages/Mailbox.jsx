@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 import ConversationList from "../mailbox/ConversationList";
 import ChatScreen from "../mailbox/ChatScreen";
+import ItemPreview from "../mailbox/ItemPreview";
 
 import api from "../../services/api";
 
@@ -77,7 +78,9 @@ const Mailbox = (props) => {
             <div className="h-full flex w-5/12 px-4 overflow-auto">
               <ChatScreen />
             </div>
-            <div className="h-full w-4/12 overflow-auto"></div>
+            <div className="h-full w-4/12 overflow-auto">
+              <ItemPreview />
+            </div>
           </div>
         </MailboxContext.Provider>
       ) : (
