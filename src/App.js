@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
 import "./App.css";
 
@@ -9,10 +9,13 @@ import Mailbox from "./components/pages/Mailbox";
 
 //User Components
 import Login from "./components/pages/Login";
+
 import Register from "./components/pages/Register";
 import Dashboard from "./components/pages/Dashboard";
+import EditProfile from "./components/pages/EditProfile";
+import ProtectedRoute from "./components/ProtectedRoute";
+import GuestRoute from "./components/GuestRoute";
 
-//Item Components
 import Offers from "./components/pages/Offers";
 import Requests from "./components/pages/Requests";
 import Item from "./components/pages/Item";
@@ -35,9 +38,10 @@ class App extends React.Component {
             <Route path="/mailbox" component={Mailbox} />
 
             {/* User Routes */}
-            <Route path="/login" component={Login} />
+            <GuestRoute path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/user/dashboard" component={Dashboard} />
+            <ProtectedRoute path="/user/editprofile" component={EditProfile} />
+            <ProtectedRoute path="/user/dashboard" component={Dashboard} />
             <Route path="/" />
           </Switch>
           <Footer />

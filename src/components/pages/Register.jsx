@@ -108,10 +108,7 @@ class Register extends React.Component {
           />
 
           <div className="flex flex-col m-2 items-center sm:flex-row sm:flex-wrap sm:m-4">
-            <label
-              htmlFor="userType"
-              className="w-32 text-center mb-2 sm:text-left sm:pl-1 sm:m-0"
-            >
+            <label htmlFor="userType" className="w-32 text-center mb-2 sm:text-left sm:pl-1 sm:m-0">
               User Type
             </label>
             <select
@@ -145,11 +142,7 @@ class Register extends React.Component {
             ""
           )}
 
-          {this.state.formErr !== "" ? (
-            <ErrorMsg msg={this.state.formErr} />
-          ) : (
-            ""
-          )}
+          {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
           <button
             type="submit"
             className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
