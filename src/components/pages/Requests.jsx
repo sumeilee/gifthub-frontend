@@ -102,14 +102,15 @@ class Requests extends React.Component {
                                             >
                                                 Chat
                                             </button>
-                                            <Link
+                                            {/* Remove edit button, show in dashboard for owner of item only */}
+                                            {/* <Link
                                                 to={{
                                                     pathname: `/items/${element._id}/edit`,
                                                 }}
                                                 className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                                             >
                                                 Edit
-                                            </Link>
+                                            </Link> */}
                                         </div>
                                     </div>
                                 </div>
