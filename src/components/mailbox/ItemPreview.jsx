@@ -41,6 +41,7 @@ const ItemPreview = () => {
             {currentItem.postedBy.last_name}
           </p>
           <p className="mt-6 font-light">{currentItem.description}</p>
+          <p className="mt-6 font-light">Status: {currentItem.status}</p>
         </div>
       ) : (
         ""
