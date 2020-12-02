@@ -129,13 +129,6 @@ class Header extends React.Component {
                 this.state.isMenuOpen ? "block" : "hidden"
               } py-2 sm:block sm:flex sm:items-center`}
             >
-              <Link
-                to="/user/editprofile"
-                className="block text-white font-semibold mx-3 my-1 px-4 py-2 rounded hover:bg-pink-700"
-              >
-                Edit profile
-              </Link>
-
               <a
                 href="/"
                 onClick={(e) => {

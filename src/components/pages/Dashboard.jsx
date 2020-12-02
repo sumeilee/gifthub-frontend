@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
+
 import {withCookies} from "react-cookie";
 
 class Dashboard extends React.Component {
@@ -28,46 +30,133 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <section className="px-4 sm:px-6 lg:px-4 xl:px-6 pt-4 pb-4 sm:pb-6 lg:pb-4 xl:pb-6 space-y-">
-        <header className="mx-auto px-2 flex items-center justify-start">
-          <h1 className="text-3xl font-bold leading-tight text-gray-900">
-            Hello, {this.state.user.first_name}!
-          </h1>
-          <button className="hover:bg-light-blue-200 hover:text-light-blue-800 group flex items-center rounded-md bg-light-blue-100 text-light-blue-600 text-sm font-medium px-4 py-2">
-            <svg
-              className="group-hover:text-light-blue-600 text-light-blue-500 mr-2"
-              width="12"
-              height="20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M6 5a1 1 0 011 1v3h3a1 1 0 110 2H7v3a1 1 0 11-2 0v-3H2a1 1 0 110-2h3V6a1 1 0 011-1z"
-              />
-            </svg>
-            Add new item
-          </button>
-        </header>
-        <div className="md:flex md:-mx-4">
-          <div className="w-full mb-2 md:w-1/2 md:mx-4 border rounded shadow-sm">
-            {this.state.userItems.length > 0 ? (
-              this.state.userItems.map((items) => {
-                return (
-                  <div className="px-10 py-100">
-                    <p className="font-semibold leading-tight text-2xl text-gray-800 hover:text-gray-800">
-                      {items.title}
-                    </p>
-                    <li className="text-gray-900">{items.description}</li>
+      <div className="dashboard container mx-auto px-10 flex flex-col">
+        <table className="table-auto">
+          <tbody>
+            <tr className="bg-gray-200 h-10">
+              <td>
+                <div className="text-2xl font-bold text-center">
+                  Hello, {this.state.user.first_name}!
+                  <Link to="/items/new">
+                    <button
+                      className="transform hover:scale-150 pl-2 pt-2 mb-0 ml-2 pb-0 pt-0"
+                      title="Add item"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        width="20"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                  </Link>
+                  <Link to="/mailbox">
+                    <button
+                      className="transform hover:scale-150 pl-2 pt-2 mb-0 ml-2 pb-0 pt-0"
+                      title="Chats"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        width="20"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
+                      </svg>
+                    </button>
+                  </Link>
+                  <Link to="/user/editprofile">
+                    <button
+                      className="transform hover:scale-150 pl-2 pt-2 mb-0 ml-2 pb-0 pt-0"
+                      title="Edit profile"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        width="20"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                        />
+                      </svg>
+                    </button>
+                  </Link>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+
+        <div className="grid grid-cols-3">
+          {this.state.userItems.length > 0 ? (
+            this.state.userItems.map((items) => {
+              return (
+                <div className=" container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-2">
+                      <p className="text-base font-bold tracking-wider">{items.title}</p>
+                      <p>
+                        Date posted:{" "}
+                        {new Date(items.createdAt).toLocaleDateString("en-GB", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </p>
+                      <p className="break-words">Description: {items.description}</p>
+                      <p>Category: {items.category}</p>
+                      <p>
+                        Tags: {items.tags}
+                        <br />
+                      </p>
+                      <br />
+                    </div>
+                    <div className="col-span-2 grid grid-cols-2 gap-4">
+                      <p>
+                        Status: <b>{items.status}</b>
+                      </p>
+                      <p>
+                        Delivery: <b>{items.delivery}</b>
+                      </p>
+                      <br />
+                    </div>
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
+                    >
+                      Edit
+                    </button>
                   </div>
-                );
-              })
-            ) : (
-              <p> Nothing added </p>
-            )}
-          </div>
+                </div>
+              );
+            })
+          ) : (
+            <p>No offers found.</p>
+          )}
         </div>
-      </section>
+        <br />
+        <div className=" flex items-start"></div>
+      </div>
     );
   }
 }
