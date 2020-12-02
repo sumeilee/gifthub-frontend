@@ -19,11 +19,11 @@ class Offers extends React.Component {
   }
 
   componentDidMount() {
-    console.log("mounting offers");
     const token = this.props.cookies.get("token");
 
     if (!token) {
       this.props.history.push("/login");
+      return;
     }
 
     const me = jwt.decode(token);
@@ -41,25 +41,11 @@ class Offers extends React.Component {
     return axios.get("http://localhost:5000/api/v1/offers");
   }
 
-  async startConversation(users, item) {
-    const response = await api.getConversationsByUsersAndItem(users, item);
-    const conversations = response.data.conversations;
-    let conversation;
-
-    if (conversations.length === 0) {
-      conversation = await api.createConversation(users, item);
-      //   console.log(conversation);
-    } else {
-      conversation = conversations[0];
-    }
-
-    return conversation;
-  }
-
   async handleChatClick(users, item) {
     try {
-      const conversation = await this.startConversation(users, item);
-      //   console.log(conversation);
+      const conversation = await api.getOrCreateConversation(users, item);
+      // setCurrentConversation(conversation);
+
       this.props.history.push("/mailbox");
     } catch (err) {
       console.log(err);
@@ -125,7 +111,7 @@ class Offers extends React.Component {
                         <br />
                         <button
                           type="submit"
-                          className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300"
+                          className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300 focus:outline-none"
                         >
                           Request
                         </button>
@@ -138,13 +124,13 @@ class Offers extends React.Component {
                               element._id
                             )
                           }
-                          className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
+                          className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
                         >
                           Chat
                         </button>
                         <button
                           type="submit"
-                          className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
+                          className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
                         >
                           Edit
                         </button>

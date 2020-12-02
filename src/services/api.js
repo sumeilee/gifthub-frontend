@@ -61,6 +61,19 @@ const api = {
       data,
     });
   },
+  async getOrCreateConversation(users, item) {
+    const response = await this.getConversationsByUsersAndItem(users, item);
+    const conversations = response.data.conversations;
+    let conversation;
+
+    if (conversations.length === 0) {
+      conversation = await api.createConversation(users, item);
+    } else {
+      conversation = conversations[0];
+    }
+
+    return conversation;
+  },
   getItem: (id) => {
     return ax({
       method: "GET",
