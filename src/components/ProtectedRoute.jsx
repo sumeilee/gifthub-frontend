@@ -21,7 +21,11 @@ class ProtectedRoute extends React.Component {
   render() {
     const Comp = this.props.component;
 
-    return this.isAuthenticated() ? <Comp /> : <Redirect to="/login" />;
+    return this.isAuthenticated() ? (
+      <Comp history={this.props.history} />
+    ) : (
+      <Redirect to="/login" />
+    );
   }
 }
 
