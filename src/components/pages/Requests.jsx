@@ -23,7 +23,6 @@ class Requests extends React.Component {
     const me = jwt.decode(token);
 
     this.listRequests().then((response) => {
-      console.log(response.data);
       this.setState({
         list: response.data,
         me,
@@ -65,76 +64,78 @@ class Requests extends React.Component {
           {this.state.list.length > 0 ? (
             this.state.list.map((element) => {
               return (
-                <div className="container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="col-span-2">
-                      <p className="text-base font-bold tracking-wider">
-                        {element.title}
-                      </p>
-                      <p>
-                        Date:{" "}
-                        {new Date(element.createdAt).toLocaleDateString(
-                          "en-GB",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )}
-                      </p>
-                      {/* <p>Item ID: {element._id}</p> */}
-                      {/* <p>Type: {element.postType}</p> */}
-                      <p className="truncate mr-2">
-                        Description: {element.description}
-                      </p>
-                      <p>Category: {element.category}</p>
-                      <p>
-                        Tags: {element.tags}
+                <React.Fragment key={element._id}>
+                  <div className="container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="col-span-2">
+                        <p className="text-base font-bold tracking-wider">
+                          {element.title}
+                        </p>
+                        <p>
+                          Date:{" "}
+                          {new Date(element.createdAt).toLocaleDateString(
+                            "en-GB",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
+                        </p>
+                        {/* <p>Item ID: {element._id}</p> */}
+                        {/* <p>Type: {element.postType}</p> */}
+                        <p className="truncate mr-2">
+                          Description: {element.description}
+                        </p>
+                        <p>Category: {element.category}</p>
+                        <p>
+                          Tags: {element.tags}
+                          <br />
+                        </p>
                         <br />
-                      </p>
-                      <br />
-                      <p>
-                        {/* to change to first & last name */}
-                        {/* try .populate in backend */}
-                        Posted By:{" "}
-                        {element.postedBy
-                          ? `${element.postedBy.first_name} ${element.postedBy.last_name}`
-                          : ""}
-                      </p>
-                    </div>
-                    <div className="col2">
-                      <br />
-                      <p>Status: {element.status}</p>
-                      <p>Delivery: {element.delivery}</p>
-                      <br />
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300 focus:outline-none"
-                      >
-                        Donate
-                      </button>
-                      {/* <span> </span> */}
-                      <button
-                        type="submit"
-                        onClick={() =>
-                          this.handleChatClick(
-                            [this.state.me.id, element.postedBy._id],
-                            element._id
-                          )
-                        }
-                        className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
-                      >
-                        Chat
-                      </button>
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
-                      >
-                        Edit
-                      </button>
+                        <p>
+                          {/* to change to first & last name */}
+                          {/* try .populate in backend */}
+                          Posted By:{" "}
+                          {element.postedBy
+                            ? `${element.postedBy.first_name} ${element.postedBy.last_name}`
+                            : ""}
+                        </p>
+                      </div>
+                      <div className="col2">
+                        <br />
+                        <p>Status: {element.status}</p>
+                        <p>Delivery: {element.delivery}</p>
+                        <br />
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300 focus:outline-none"
+                        >
+                          Donate
+                        </button>
+                        {/* <span> </span> */}
+                        <button
+                          type="submit"
+                          onClick={() =>
+                            this.handleChatClick(
+                              [this.state.me.id, element.postedBy._id],
+                              element._id
+                            )
+                          }
+                          className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
+                        >
+                          Chat
+                        </button>
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
+                        >
+                          Edit
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </React.Fragment>
               );
             })
           ) : (

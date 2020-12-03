@@ -59,18 +59,10 @@ class Donate extends React.Component {
       }
 
       const { item, user } = this.props;
-      console.log(item);
-      console.log(user);
       const users = [item.postedBy._id, user.id];
-
-      console.log(users);
-      console.log(item._id);
-      console.log(message);
 
       try {
         const conversation = await api.getOrCreateConversation(users, item._id);
-        console.log(conversation);
-        // const { conversation } = response.data;
 
         await api.createMessage(user.id, message, "", conversation._id);
         this.props.history.push("/mailbox");
@@ -80,9 +72,6 @@ class Donate extends React.Component {
     }
   }
 
-  //add form validation later
-  //add handleFormSubmit later
-
   render() {
     return (
       <div className="page-donate container mx-auto px-10 flex flex-col">
@@ -90,11 +79,7 @@ class Donate extends React.Component {
         <p className="text-xl font-bold text-center text-green-600">
           Yes, I wish to donate! :)
         </p>
-        {/* <br /> */}
-        {/* <p className="text-base font-medium text-gray-700">
-          Name: {this.props.user.first_name} {this.props.user.last_name}
-        </p> */}
-        {/* <form> */}
+
         {/* //=== Delivery Date ==== // */}
         <div className="mt-2">
           <label htmlFor="name" className="text-base font-medium text-gray-700">
@@ -199,7 +184,6 @@ class Donate extends React.Component {
         >
           Submit
         </button>
-        {/* </form> */}
       </div>
     );
   }

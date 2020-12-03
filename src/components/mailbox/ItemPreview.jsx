@@ -73,10 +73,10 @@ const ItemPreview = () => {
     <div>
       {currentItem ? (
         <div>
-          <h2 className="text-lg text-gray-800 font-semibold">
+          <h2 className="text-lg text-gray-800 font-semibold leading-tight">
             {currentItem.title}
           </h2>
-          <p className="text-sm text-gray-800 font-light">
+          <p className="text-sm text-gray-800 font-light mt-1">
             Posted on{" "}
             {new Date(currentItem.createdAt).toLocaleDateString("en-GB", {
               year: "numeric",
