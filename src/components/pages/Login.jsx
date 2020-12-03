@@ -2,8 +2,8 @@ import React from "react";
 import axios from "axios";
 import qs from "qs";
 import moment from "moment";
-import { withCookies } from "react-cookie";
-import { withRouter } from "react-router-dom";
+import {withCookies} from "react-cookie";
+import {withRouter} from "react-router-dom";
 
 import FormInput from "./../form/FormInput";
 import ErrorMsg from "../ErrorMsg";
@@ -48,7 +48,8 @@ class Login extends React.Component {
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
 
-        this.props.history.push("/user/dashboard");
+        // this.props.history.push("/user/dashboard");
+        window.location.reload();
       })
       .catch((err) => {
         this.setState({
@@ -86,11 +87,7 @@ class Login extends React.Component {
             }}
           />
 
-          {this.state.formErr !== "" ? (
-            <ErrorMsg msg={this.state.formErr} />
-          ) : (
-            ""
-          )}
+          {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
           <button
             type="submit"
             className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
