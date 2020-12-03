@@ -124,7 +124,7 @@ class Requests extends React.Component {
                         type="submit"
                         onClick={() =>
                           this.handleChatClick(
-                            [this.state.me.id, element.postedBy],
+                            [this.state.me.id, element.postedBy._id],
                             element._id
                           )
                         }

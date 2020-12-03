@@ -14,11 +14,6 @@ const ConversationItem = ({ conversation, onClick }) => {
     ? conversation.users.filter((user) => user._id !== me.id)[0]
     : null;
 
-  console.log(conversation);
-
-  // console.log(me);
-  // console.log(other);
-
   useEffect(() => {
     async function getItem() {
       const response = await api.getItem(conversation.item);

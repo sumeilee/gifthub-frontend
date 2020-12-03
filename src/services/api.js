@@ -80,6 +80,26 @@ const api = {
       url: `${baseURL}/items/${id}`,
     });
   },
+  updateItem: (id, data) => {
+    return ax({
+      method: "PATCH",
+      url: `${baseURL}/items/${id}`,
+      data,
+    });
+  },
+  createTransaction: (donorID, requestorID, item) => {
+    const data = {
+      donorID,
+      requestorID,
+      item,
+    };
+    // console.log(data);
+    return ax({
+      method: "POST",
+      url: `${baseURL}/transactions`,
+      data,
+    });
+  },
 };
 
 export default api;

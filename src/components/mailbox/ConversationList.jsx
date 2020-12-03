@@ -25,29 +25,4 @@ const ConversationList = (props) => {
   );
 };
 
-// class ConversationList extends React.Component {
-//   handleClick = async (conversationId) => {
-//     const response = await api.getMessages(conversationId);
-//     const messages = response.data.messages;
-//     this.props.setMessages(messages);
-//   };
-
-//   render() {
-//     return (
-//       <div className="h-full flex flex-col items-start">
-//         {this.props.conversations.map((conversation) => {
-//           const { lastMessage } = conversation;
-//           return (
-//             <ConversationItem
-//               onClick={this.handleClick}
-//               key={conversation._id}
-//               {...lastMessage}
-//             />
-//           );
-//         })}
-//       </div>
-//     );
-//   }
-// }
-
 export default ConversationList;
