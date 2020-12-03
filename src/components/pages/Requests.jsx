@@ -20,12 +20,6 @@ class Requests extends React.Component {
 
   componentDidMount() {
     const token = this.props.cookies.get("token");
-
-    if (!token) {
-      this.props.history.push("/login");
-      return;
-    }
-
     const me = jwt.decode(token);
 
     this.listRequests().then((response) => {
@@ -43,7 +37,7 @@ class Requests extends React.Component {
 
   async handleChatClick(users, item) {
     try {
-      const conversation = await api.getOrCreateConversation(users, item);
+      await api.getOrCreateConversation(users, item);
       // setCurrentConversation(conversation);
 
       this.props.history.push("/mailbox");

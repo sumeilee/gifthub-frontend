@@ -67,7 +67,8 @@ const api = {
     let conversation;
 
     if (conversations.length === 0) {
-      conversation = await api.createConversation(users, item);
+      const response = await api.createConversation(users, item);
+      conversation = response.data.conversation;
     } else {
       conversation = conversations[0];
     }

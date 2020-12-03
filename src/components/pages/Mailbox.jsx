@@ -72,7 +72,7 @@ const Mailbox = (props) => {
           }}
         >
           <div className="h-full flex overflow-auto items-start divide-x divide-gray-200 divide-solid p-6">
-            <div className="h-full w-3/12overflow-auto">
+            <div className="h-full w-3/12 overflow-auto">
               <ConversationList conversations={conversations} />
             </div>
             <div className="h-full flex w-5/12 px-4 py-3 overflow-auto">

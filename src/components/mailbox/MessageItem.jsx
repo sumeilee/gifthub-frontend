@@ -14,7 +14,7 @@ const MessageItem = ({ message }) => {
           })}
         </div>
       </div>
-      <p className="font-light">{message.message}</p>
+      <p className="font-light whitespace-pre-line">{message.message}</p>
     </div>
   );
 };

@@ -20,12 +20,6 @@ class Offers extends React.Component {
 
   componentDidMount() {
     const token = this.props.cookies.get("token");
-
-    if (!token) {
-      this.props.history.push("/login");
-      return;
-    }
-
     const me = jwt.decode(token);
 
     this.listOffers().then((response) => {
@@ -44,7 +38,7 @@ class Offers extends React.Component {
   async handleChatClick(users, item) {
     try {
       console.log(users);
-      const conversation = await api.getOrCreateConversation(users, item);
+      await api.getOrCreateConversation(users, item);
       // setCurrentConversation(conversation);
 
       this.props.history.push("/mailbox");
