@@ -26,7 +26,7 @@ class Login extends React.Component {
 
   handleFormSubmission(e) {
     e.preventDefault();
-    console.log(this.state);
+
     axios
       .post(
         "http://localhost:5000/api/v1/user/login",
