@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { withCookies } from "react-cookie";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 
@@ -106,13 +107,17 @@ class Offers extends React.Component {
                         <p>Status: {element.status}</p>
                         <p>Delivery: {element.delivery}</p>
                         <br />
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center text-white font-semibold px-4 py-2 rounded-md bg-yellow-600 hover:bg-yellow-300 focus:outline-none"
+                        <Link
+                          to={{
+                            pathname: `/items/${element._id}`,
+                            state: {
+                              showRequest: true,
+                            },
+                          }}
+                          className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                         >
                           Request
-                        </button>
-                        {/* <span> </span> */}
+                        </Link>
                         <button
                           type="submit"
                           onClick={() =>
@@ -124,12 +129,6 @@ class Offers extends React.Component {
                           className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
                         >
                           Chat
-                        </button>
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
-                        >
-                          Edit
                         </button>
                       </div>
                     </div>
