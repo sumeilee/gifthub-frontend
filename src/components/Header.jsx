@@ -1,8 +1,8 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import {withCookies} from "react-cookie";
-import {withRouter} from "react-router-dom";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
 
 class Header extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class Header extends React.Component {
 
   handleLogout(e) {
     e.preventDefault();
-    this.props.cookies.remove("token", {path: "/"});
+    this.props.cookies.remove("token", { path: "/" });
     window.location.href = "/";
   }
 
@@ -129,6 +129,12 @@ class Header extends React.Component {
                 this.state.isMenuOpen ? "block" : "hidden"
               } py-2 sm:block sm:flex sm:items-center`}
             >
+              <Link
+                to="/mailbox"
+                className="block text-white font-semibold mx-3 my-1 px-4 py-2 rounded hover:bg-pink-700"
+              >
+                Mailbox
+              </Link>
               <a
                 href="/"
                 onClick={(e) => {
