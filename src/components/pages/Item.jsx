@@ -1,11 +1,13 @@
 import React from "react";
 import { withCookies } from "react-cookie";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import Donate from "./item/Donate";
 import Request from "./item/Request";
 // import css later
+
+import api from "../../services/api";
 
 class Item extends React.Component {
   constructor(props) {
@@ -48,15 +50,43 @@ class Item extends React.Component {
   }
 
   handleDonateClick() {
+    if (!this.state.user) {
+      this.props.history.push("/login");
+      return;
+    }
+
     this.setState({
       showDonate: !this.state.showDonate,
     });
   }
 
   handleRequestClick() {
+    if (!this.state.user) {
+      this.props.history.push("/login");
+      return;
+    }
+
     this.setState({
       showRequest: !this.state.showRequest,
     });
+  }
+
+  async handleChatClick() {
+    if (!this.state.user) {
+      this.props.history.push("/login");
+      return;
+    }
+
+    const users = [this.state.user._id, this.state.item.postedBy._id];
+    const item = this.state.item._id;
+
+    try {
+      await api.getOrCreateConversation(users, item);
+
+      this.props.history.push("/mailbox");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
@@ -116,26 +146,23 @@ class Item extends React.Component {
                 )}
                 <button
                   type="submit"
+                  onClick={() => this.handleChatClick()}
                   className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
                 >
                   Chat
                 </button>
-                <Link
-                  to={{
-                    pathname: `/items/${this.state.itemID}/edit`,
-                  }}
-                  className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
-                >
-                  Edit
-                </Link>
               </div>
             </div>
             <br />
             {/* // Toggle Donate Btn */}
-            {this.state.showDonate ? <Donate user={this.state.user} /> : null}
+            {this.state.showDonate ? (
+              <Donate user={this.state.user} item={this.state.item} />
+            ) : null}
 
             {/* // Toggle Request Btn */}
-            {this.state.showRequest ? <Request user={this.state.user} /> : null}
+            {this.state.showRequest ? (
+              <Request user={this.state.user} item={this.state.item} />
+            ) : null}
 
             {/* {this.state.showClick &&
                         this.state.item.postType === "Request" ? (
@@ -152,4 +179,4 @@ class Item extends React.Component {
   }
 }
 
-export default withCookies(Item);
+export default withCookies(withRouter(Item));

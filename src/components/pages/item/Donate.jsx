@@ -59,11 +59,18 @@ class Donate extends React.Component {
       }
 
       const { item, user } = this.props;
-      const users = [item.postedBy._id, user.id];
 
+      if (!user) {
+        this.props.history.push("/login");
+        return;
+      }
+
+      const users = [item.postedBy._id, user.id];
+      console.log(users);
+      console.log(item._id);
       try {
         const conversation = await api.getOrCreateConversation(users, item._id);
-
+        console.log(conversation);
         await api.createMessage(user.id, message, "", conversation._id);
         this.props.history.push("/mailbox");
       } catch (err) {
@@ -124,7 +131,7 @@ class Donate extends React.Component {
             Description of Item:
           </label>{" "}
           <textarea
-            className="mt-1 inline-flex w-full text-base border-2 border-gray-300 rounded-md"
+            className="mt-1 py-2 px-3 inline-flex w-full text-base border-2 border-gray-300 rounded-md focus:outline-none"
             onChange={(e) => this.handleInputChange(e)}
             id="description"
             name="description"
