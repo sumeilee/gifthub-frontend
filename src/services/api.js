@@ -21,9 +21,10 @@ const api = {
       url: `${baseURL}/messages?conversation=${conversationId}&asc=1`,
     });
   },
-  createMessage: (author, message, attachments, conversation) => {
+  createMessage: (author, recipient, message, attachments, conversation) => {
     const data = {
       author,
+      recipient,
       message,
       attachments,
       conversation,

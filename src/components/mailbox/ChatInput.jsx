@@ -9,16 +9,22 @@ const ChatInput = (props) => {
     MailboxContext
   );
 
+  const other = currentConversation
+    ? currentConversation.users.filter((user) => user._id !== me.id)[0]
+    : null;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const message = e.target.chatBox.value;
     const attachments = "";
     const author = me.id;
+    const recipient = other._id;
 
     if (message) {
       const response = await api.createMessage(
         author,
+        recipient,
         message,
         attachments,
         currentConversation
