@@ -2,11 +2,13 @@ import React from "react";
 import axios from "axios";
 import qs from "qs";
 import moment from "moment";
-import {withCookies} from "react-cookie";
-import {withRouter} from "react-router-dom";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
 
 import FormInput from "./../form/FormInput";
 import ErrorMsg from "../ErrorMsg";
+
+import SocketContext from "../../contexts/SocketContext";
 
 class Login extends React.Component {
   constructor(props) {
@@ -48,8 +50,7 @@ class Login extends React.Component {
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
 
-        // this.props.history.push("/user/dashboard");
-        window.location.reload();
+        this.props.history.push("/user/dashboard");
       })
       .catch((err) => {
         this.setState({
@@ -60,44 +61,57 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="h-full flex justify-center items-center">
-        <form
-          className="flex flex-col items-center py-6"
-          onSubmit={(e) => {
-            this.handleFormSubmission(e);
-          }}
-        >
-          <FormInput
-            type="email"
-            label="Email"
-            name="email"
-            id="email"
-            onChange={(e) => {
-              this.handleInputChange(e);
-            }}
-          />
+      <SocketContext.Consumer>
+        {(value) => {
+          return (
+            <div className="h-full flex justify-center items-center">
+              {value.socket ? `${value.socket.id}` : ""}
+              <form
+                className="flex flex-col items-center py-6"
+                onSubmit={(e) => {
+                  this.handleFormSubmission(e);
+                }}
+              >
+                <FormInput
+                  type="email"
+                  label="Email"
+                  name="email"
+                  id="email"
+                  onChange={(e) => {
+                    this.handleInputChange(e);
+                  }}
+                />
 
-          <FormInput
-            type="password"
-            label="Password"
-            name="password"
-            id="password"
-            onChange={(e) => {
-              this.handleInputChange(e);
-            }}
-          />
+                <FormInput
+                  type="password"
+                  label="Password"
+                  name="password"
+                  id="password"
+                  onChange={(e) => {
+                    this.handleInputChange(e);
+                  }}
+                />
 
-          {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
-          <button
-            type="submit"
-            className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
-          >
-            Login
-          </button>
-        </form>
-      </div>
+                {this.state.formErr !== "" ? (
+                  <ErrorMsg msg={this.state.formErr} />
+                ) : (
+                  ""
+                )}
+                <button
+                  type="submit"
+                  className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
+                >
+                  Login
+                </button>
+              </form>
+            </div>
+          );
+        }}
+      </SocketContext.Consumer>
     );
   }
 }
+
+Login.contextType = SocketContext;
 
 export default withRouter(withCookies(Login));

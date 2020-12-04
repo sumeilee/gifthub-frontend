@@ -1,8 +1,8 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import {withCookies} from "react-cookie";
-import {withRouter} from "react-router-dom";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
 
 class Header extends React.Component {
   constructor(props) {
@@ -42,8 +42,8 @@ class Header extends React.Component {
 
   handleLogout(e) {
     e.preventDefault();
-    this.props.cookies.remove("token", {path: "/"});
-    window.location.href = "/";
+    this.props.cookies.remove("token", { path: "/" });
+    this.props.history.push("/");
   }
 
   render() {
