@@ -9,7 +9,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       user: {first_name: ""},
-      userItems: "",
+      userItems: [],
     };
   }
   componentDidMount() {
@@ -30,55 +30,13 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="dashboard container mx-auto px-10 flex flex-col">
+      <div className="dashboard h-full items-start w-full pt-4 container mx-auto px-10 flex flex-col">
         <table className="table-auto">
           <tbody>
-            <tr className="bg-gray-200 h-10">
+            <tr className="w-full  h-10">
               <td>
-                <div className="text-2xl font-bold text-center">
+                <div className="text-3xl font-bold text-center">
                   Hello, {this.state.user.first_name}!
-                  <Link to="/items/new">
-                    <button
-                      className="transform hover:scale-150 pl-2 pt-2 mb-0 ml-2 pb-0 pt-0"
-                      title="Add item"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        width="20"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </button>
-                  </Link>
-                  <Link to="/mailbox">
-                    <button
-                      className="transform hover:scale-150 pl-2 pt-2 mb-0 ml-2 pb-0 pt-0"
-                      title="Chats"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        width="20"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                        />
-                      </svg>
-                    </button>
-                  </Link>
                   <Link to="/user/editprofile">
                     <button
                       className="transform hover:scale-150 pl-2 pt-2 mb-0 ml-2 pb-0 pt-0"
@@ -105,7 +63,32 @@ class Dashboard extends React.Component {
             </tr>
           </tbody>
         </table>
+
         <br />
+        <div className=" text-gray-700 pt-0 pl-1 text-xl font text-center">
+          Items listed
+          <Link to="/items/new">
+            <button
+              className=" transform hover:scale-150 pl-0 pt-0 mt-2 mb-0 ml-2 pb-0 pt-0"
+              title="Add item"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                width="17"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
+          </Link>
+        </div>
 
         <div className="grid grid-cols-3">
           {this.state.userItems.length > 0 ? (
@@ -125,6 +108,7 @@ class Dashboard extends React.Component {
                       </p>
                       <p className="break-words">Description: {items.description}</p>
                       <p>Category: {items.category}</p>
+                      <p>Post type: {items.postType}</p>
                       <p>
                         Tags: {items.tags}
                         <br />
@@ -155,7 +139,6 @@ class Dashboard extends React.Component {
           )}
         </div>
         <br />
-        <div className=" flex items-start"></div>
       </div>
     );
   }

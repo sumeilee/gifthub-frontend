@@ -7,17 +7,20 @@ class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: "",
-      firstName: "",
-      lastName: "",
-      userType: "",
-      organisation: "",
-      email: "",
-      password: "",
-      formErr: "",
+      user: {
+        first_name: "",
+        last_name: "",
+        userType: "",
+        organisation: "",
+        email: "",
+        password: "",
+        formErr: "",
+      },
     };
   }
   componentDidMount() {
+    axios.defaults.headers.common["auth_token"] = this.props.cookies.get("token");
+
     axios
       .get("http://localhost:5000/api/v1/users/me")
 
@@ -28,27 +31,38 @@ class EditProfile extends React.Component {
         });
       })
       .catch((err) => console.log(err));
+    console.log("history");
+    console.log(this.props.history);
   }
 
   handleFirstNameChange(e) {
     this.setState({
-      firstName: e.target.value,
+      user: {
+        ...this.state.user,
+        first_name: e.target.value,
+      },
     });
   }
 
   handleLastNameChange(e) {
     this.setState({
-      lastName: e.target.value,
+      user: {
+        ...this.state.user,
+        last_name: e.target.value,
+      },
     });
   }
 
   handleEmailChange(e) {
     this.setState({
-      email: e.target.value,
+      user: {
+        ...this.state.user,
+        email: e.target.value,
+      },
     });
   }
 
-  handlePasswrdChange(e) {
+  handlePasswordChange(e) {
     this.setState({
       password: e.target.value,
     });
@@ -56,49 +70,55 @@ class EditProfile extends React.Component {
 
   handleUserTypeChange(e) {
     this.setState({
+      ...this.state.user,
+
       userType: e.target.value,
     });
   }
   handleOrganisationChange(e) {
     this.setState({
-      organisation: e.target.value,
+      user: {
+        ...this.state.user,
+        organisation: e.target.value,
+      },
     });
   }
 
   handleFormSubmission(e) {
     e.preventDefault();
-
+    console.log(this.props.cookies.get("token"));
     axios
       .patch(
         "http://localhost:5000/api/v1/users/me",
-        {
-          headers: {
-            auth_token: this.props.cookies.get("token"),
-          },
-        },
-
         qs.stringify({
-          firstName: this.state.user.firstName,
-          lastName: this.state.user.lastName,
+          first_name: this.state.user.first_name,
+          last_name: this.state.user.last_name,
           email: this.state.user.email,
           password: this.state.user.password,
           userType: this.state.user.userType,
           organisation: this.state.user.organisation,
-        })
+        }),
+
+        {
+          headers: {
+            auth_token: this.props.cookies.get("token"),
+          },
+        }
       )
       .then((response) => {
         if (!response.data.success) {
           console.log(response);
           this.setState({
-            formErr: "Error occurred in form, please check values",
+            formErr: "Update unsuccessful",
           });
           return;
         }
-
+        console.log(response);
         this.props.history.push("/user/dashboard");
       })
 
       .catch((err) => {
+        console.log(err);
         this.setState({
           formErr: "Error occurred in form, please check values",
         });
@@ -118,12 +138,12 @@ class EditProfile extends React.Component {
           >
             <div className="mt-8 space-y-6">
               <div className="rounded-md space-y-px">
-                <label htmlFor="firstName" className="sr-only">
-                  {this.state.firstName}
+                <label htmlFor="first_name" className="sr-only">
+                  {this.state.user.first_name}
                 </label>
                 <input
                   type="text"
-                  placeholder={this.state.user.first_name}
+                  value={this.state.user.first_name}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   onChange={(e) => {
                     this.handleFirstNameChange(e);
@@ -132,10 +152,10 @@ class EditProfile extends React.Component {
               </div>
             </div>
             <div className="mt-8 space-y-6">
-              <label htmlFor="lastName" className="sr-only"></label>
+              <label htmlFor="last_name" className="sr-only"></label>
               <input
                 type="text"
-                placeholder={this.state.user.last_name}
+                value={this.state.user.last_name}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
                   this.handleLastNameChange(e);
@@ -146,6 +166,7 @@ class EditProfile extends React.Component {
               <label htmlFor="email" className="sr-only"></label>
               <input
                 type="email"
+                value={this.state.user.email}
                 placeholder="New email"
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
@@ -158,11 +179,12 @@ class EditProfile extends React.Component {
             <div className="mt-8 space-y-6">
               <label htmlFor="exampleInputPassword1" className="sr-only"></label>
               <input
+                value={this.state.user.password}
                 type="password"
                 placeholder=" New Password"
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 onChange={(e) => {
-                  this.handlePasswrdChange(e);
+                  this.handlePasswordChange(e);
                 }}
                 id="exampleInputPassword1"
               />
@@ -170,11 +192,11 @@ class EditProfile extends React.Component {
 
             <div className="mt-8 space-y-6">
               <label for="userType" className="sr-only">
-                {this.state.userType}
+                {this.state.user.userType}
               </label>
               <select
                 id="userType"
-                placeholder={this.state.userType}
+                value={this.state.user.userType}
                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 onChange={(e) => {
                   this.handleUserTypeChange(e);
@@ -190,6 +212,7 @@ class EditProfile extends React.Component {
                 Organisation (if applicable)
               </label>
               <input
+                value={this.state.user.organisation}
                 type="text"
                 placeholder="Organisation (if applicable)"
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
