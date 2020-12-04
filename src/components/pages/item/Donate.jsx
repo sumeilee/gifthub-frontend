@@ -75,6 +75,7 @@ class Donate extends React.Component {
   render() {
     return (
       <div className="page-donate container mx-auto px-10 flex flex-col">
+        <hr />
         <br />
         <p className="text-xl font-bold text-center text-green-600">
           Yes, I wish to donate! :)
@@ -82,12 +83,15 @@ class Donate extends React.Component {
 
         {/* //=== Delivery Date ==== // */}
         <div className="mt-2">
-          <label htmlFor="name" className="text-base font-medium text-gray-700">
-            Delivery Date:
+          <label
+            htmlFor="available-date"
+            className="text-base font-medium text-gray-700"
+          >
+            Date Available:
           </label>{" "}
           <input
             type="date"
-            id="delivery-date"
+            id="available-date"
             name="dateAvailable"
             onChange={(e) => this.handleInputChange(e)}
             className="w-40 text-base border-2 border-gray-300 rounded-md"
