@@ -51,7 +51,7 @@ class Header extends React.Component {
         <div className="flex justify-between h-20 items-centers px-6 py-4 sm:p-0">
           <div className="flex items-center">
             <Link to="/" className="block text-3xl block text-white font-bold">
-              <img src="/giftHub_icon.png" className="inline" width="70" height="70" />
+              <img src="/giftHub_icon.png" className="inline" width="60" height="60" />
               giftHUB
             </Link>
           </div>

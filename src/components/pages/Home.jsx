@@ -6,7 +6,7 @@ class Home extends React.Component {
       <div
         className="h-full w-full bg-contain bg-center  "
         style={{
-          backgroundImage: "url(/coverpage.jpg)",
+          backgroundImage: "url(/homepage.jpg)",
           backgroundSize: "cover",
         }}
       >
@@ -31,10 +31,6 @@ class Home extends React.Component {
           className=" flex justify-left font-bold text-2xl text-white text-left pl-5"
           style={{
             textShadow: "3px 2px 0px rgb(202, 61, 118)",
-            webkitAnimationDelay: "9s",
-            mozAnimationDelay: "9s",
-            msAnimationDelay: "9s",
-            animationDelay: "9s",
           }}
         >
           <p2>Click into requests to see listings by requestors that you may donate to .</p2>
