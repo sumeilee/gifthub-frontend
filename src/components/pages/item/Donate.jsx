@@ -93,7 +93,9 @@ class Donate extends React.Component {
         <p className="text-xl font-bold text-center text-green-600">
           Yes, I wish to donate! :)
         </p>
-
+        <p className="text-base font-medium text-gray-700">
+          Name: {this.props.user.first_name} {this.props.user.last_name}
+        </p>
         {/* //=== Delivery Date ==== // */}
         <div className="mt-2">
           <label
@@ -112,7 +114,7 @@ class Donate extends React.Component {
           />
         </div>
         {/* //=== Images ==== // */}
-        <div className="mt-2">
+        {/* <div className="mt-2">
           <label
             htmlFor="images"
             className="text-base font-medium text-gray-700"
@@ -127,7 +129,7 @@ class Donate extends React.Component {
             id="images"
             name="images"
           />
-        </div>
+        </div> */}
         {/* //=== Description ==== // */}
         <div className="mt-2">
           <label
