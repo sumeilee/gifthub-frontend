@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./App.css";
 
@@ -32,10 +32,10 @@ class App extends React.Component {
             {/* Item Routes */}
             <Route path="/offers" component={Offers} />
             <Route path="/requests" component={Requests} />
-            <Route path="/items/new" component={NewItem} />
-            <Route path="/items/:id/edit" component={EditItem} />
+            <ProtectedRoute path="/items/new" component={NewItem} />
+            <ProtectedRoute path="/items/:id/edit" component={EditItem} />
             <Route path="/items/:id" component={Item} />
-            <Route path="/mailbox" component={Mailbox} />
+            <ProtectedRoute path="/mailbox" component={Mailbox} />
 
             {/* User Routes */}
             <GuestRoute path="/login" component={Login} />
