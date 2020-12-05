@@ -70,7 +70,13 @@ class Request extends React.Component {
       try {
         const conversation = await api.getOrCreateConversation(users, item._id);
 
-        await api.createMessage(user.id, message, "", conversation._id);
+        await api.createMessage(
+          user.id,
+          item.postedBy._id,
+          message,
+          "",
+          conversation._id
+        );
         this.props.history.push("/mailbox");
       } catch (err) {
         console.log(err.message);
