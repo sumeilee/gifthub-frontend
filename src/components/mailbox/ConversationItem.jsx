@@ -15,6 +15,10 @@ const ConversationItem = ({ conversation, onClick }) => {
     : null;
 
   useEffect(() => {
+    return;
+  }, [currentConversation]);
+
+  useEffect(() => {
     async function getItem() {
       const response = await api.getItem(conversation.item);
       setItemTitle(response.data.title);
@@ -45,7 +49,7 @@ const ConversationItem = ({ conversation, onClick }) => {
       }`}
     >
       <h4 className="text-gray-600 text-xs">
-        {`${other.first_name} ${other.last_name}`}
+        {other ? `${other.first_name} ${other.last_name}` : ""}
       </h4>
       <h3 className="font-semibold text-gray-800 truncate">{itemTitle}</h3>
 

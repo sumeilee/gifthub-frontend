@@ -38,8 +38,8 @@ const MessageList = ({ messages }) => {
     >
       {currentConversation ? (
         <div className="text-center text-xs text-gray-400 font-semibold mb-2">
-          Start of conversation between You and {other.first_name}{" "}
-          {other.last_name}
+          Start of conversation between You and{" "}
+          {other ? `${other.first_name} ${other.last_name}` : ""}
         </div>
       ) : (
         ""

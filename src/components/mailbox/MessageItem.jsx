@@ -5,7 +5,9 @@ const MessageItem = ({ message }) => {
     <div className="w-full my-2">
       <div className="flex items-baseline">
         <h3 className="font-semibold text-gray-800 mr-2">
-          {`${message.author.first_name} ${message.author.last_name}`}
+          {message.author
+            ? `${message.author.first_name} ${message.author.last_name}`
+            : ""}
         </h3>
 
         <div className="text-xs text-gray-500">

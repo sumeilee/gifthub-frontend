@@ -70,8 +70,14 @@ class Donate extends React.Component {
       console.log(item._id);
       try {
         const conversation = await api.getOrCreateConversation(users, item._id);
-        console.log(conversation);
-        await api.createMessage(user.id, message, "", conversation._id);
+
+        await api.createMessage(
+          user.id,
+          item.postedBy._id,
+          message,
+          "",
+          conversation._id
+        );
         this.props.history.push("/mailbox");
       } catch (err) {
         console.log(err.message);

@@ -4,7 +4,7 @@ import MailboxContext from "../../contexts/MailboxContext";
 import api from "../../services/api";
 
 const ItemPreview = () => {
-  const { currentConversation, me } = useContext(MailboxContext);
+  const { currentConversation, me, toggle } = useContext(MailboxContext);
   const [currentItem, setCurrentItem] = useState(null);
 
   const other = currentConversation
@@ -25,7 +25,7 @@ const ItemPreview = () => {
       }
     }
     getItem();
-  }, [currentConversation]);
+  }, [currentConversation, toggle]);
 
   const handleAcceptClick = async () => {
     let requestorId;
@@ -83,13 +83,13 @@ const ItemPreview = () => {
               month: "short",
               day: "numeric",
             })}{" "}
-            by {currentItem.postedBy.first_name}{" "}
-            {currentItem.postedBy.last_name}
+            by{" "}
+            {`${currentItem.postedBy.first_name} ${currentItem.postedBy.last_name}`}
           </p>
           <p className="mt-6 font-light">{currentItem.description}</p>
           <p className="mt-6 font-light">Status: {currentItem.status}</p>
 
-          {currentItem.postedBy._id === me.id ? (
+          {currentItem.postedBy && currentItem.postedBy._id === me.id ? (
             currentItem.status === "Fulfilled" ? (
               currentItem.transaction &&
               (currentItem.transaction.donorID === other._id ||

@@ -1,19 +1,21 @@
 import React from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import {withCookies} from "react-cookie";
+import { withCookies } from "react-cookie";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {first_name: ""},
+      user: { first_name: "" },
       userItems: [],
     };
   }
   componentDidMount() {
-    axios.defaults.headers.common["auth_token"] = this.props.cookies.get("token");
+    axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
+      "token"
+    );
     axios
       .all([
         axios.get("http://localhost:5000/api/v1/users/me"),
@@ -30,7 +32,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="dashboard h-full items-start w-full pt-4 container mx-auto px-10 flex flex-col">
+      <div className="dashboard items-start w-full pt-4 container mx-auto px-10 flex flex-col">
         <table className="table-auto">
           <tbody>
             <tr className="w-full  h-10">
@@ -50,9 +52,9 @@ class Dashboard extends React.Component {
                         width="20"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                         />
                       </svg>
@@ -80,9 +82,9 @@ class Dashboard extends React.Component {
                 width="17"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
@@ -97,7 +99,9 @@ class Dashboard extends React.Component {
                 <div className=" container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
-                      <p className="text-base font-bold tracking-wider">{items.title}</p>
+                      <p className="text-base font-bold tracking-wider">
+                        {items.title}
+                      </p>
                       <p>
                         Date posted:{" "}
                         {new Date(items.createdAt).toLocaleDateString("en-GB", {
@@ -106,7 +110,9 @@ class Dashboard extends React.Component {
                           day: "numeric",
                         })}
                       </p>
-                      <p className="break-words">Description: {items.description}</p>
+                      <p className="break-words">
+                        Description: {items.description}
+                      </p>
                       <p>Category: {items.category}</p>
                       <p>Post type: {items.postType}</p>
                       <p>
@@ -124,11 +130,19 @@ class Dashboard extends React.Component {
                       </p>
                       <br />
                     </div>
-                    <button
-                      type="submit"
-                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
+                    <Link
+                      to={{
+                        pathname: `/items/${items._id}/edit`,
+                      }}
+                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                     >
                       Edit
+                    </Link>{" "}
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-red-400 hover:bg-red-5  00"
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
