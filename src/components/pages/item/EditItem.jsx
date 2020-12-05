@@ -53,19 +53,44 @@ class EditItem extends React.Component {
 
     const formData = this.state.item;
 
-    axios
-      .patch(
-        "http://localhost:5000/api/v1/items/" + itemID,
-        qs.stringify(formData)
-      )
-      .then((result) => {
-        // console.log("new result" + result);
-        console.log(formData);
-        console.log("edit form submitted successfully");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios
+    //   .patch(
+    //     "http://localhost:5000/api/v1/items/" + itemID,
+    //     qs.stringify(formData)
+    //   )
+    //   .then((result) => {
+    //     // console.log("new result" + result);
+    //     console.log(formData);
+    //     console.log("edit form submitted successfully");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    // add form validation later
+    const formValid = true; // update later
+
+    if (formValid) {
+      api
+        .updateItem(itemID, formData)
+        .then((response) => {
+          console.log(response.data);
+          console.log("edit form submitted successfully");
+          // // clear form input
+          // this.setState({
+          //   postType: "",
+          //   title: "",
+          //   description: "",
+          //   category: "",
+          //   // images: "",
+          //   tags: "",
+          //   delivery: "",
+          // });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   render() {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
@@ -92,6 +93,13 @@ const api = {
       data,
     });
   },
+  createItem: (data) => {
+    return ax({
+      method: "POST",
+      url: `${baseURL}/items/`,
+      data,
+    });
+  },
   listOffers: () => {
     return ax({
       method: "GET",
@@ -104,6 +112,7 @@ const api = {
       url: `${baseURL}/requests`,
     });
   },
+
   createTransaction: (donorID, requestorID, item) => {
     const data = {
       donorID,

@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import qs from "qs";
 import { withCookies } from "react-cookie";
+import api from "../../../services/api";
 // import css later
 
 class NewItem extends React.Component {
@@ -50,21 +51,44 @@ class NewItem extends React.Component {
       title: this.state.title,
       description: this.state.description,
       category: this.state.category,
-      images: this.state.images,
+      // images: this.state.images,
       tags: this.state.tags,
       delivery: this.state.delivery,
       // postedBy: user._id, //store in backend
     };
 
-    axios
-      .post("http://localhost:5000/api/v1/items", qs.stringify(formData))
-      .then((result) => {
-        // console.log(result);
-        console.log(formData);
-        console.log("form submitted successfully");
-      });
+    // axios
+    //   .post("http://localhost:5000/api/v1/items", qs.stringify(formData))
+    //   .then((result) => {
+    //     // console.log(result);
+    //     console.log(formData);
+    //     console.log("form submitted successfully");
+    //   });
 
-    //add form validation later
+    // add form validation later
+    const formValid = true; // update later
+
+    if (formValid) {
+      api
+        .createItem(formData)
+        .then((response) => {
+          console.log(response.data);
+          console.log("new item submitted successfully");
+          // // clear form input
+          // this.setState({
+          //   postType: "",
+          //   title: "",
+          //   description: "",
+          //   category: "",
+          //   // images: "",
+          //   tags: "",
+          //   delivery: "",
+          // });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   render() {
