@@ -45,7 +45,7 @@ const ConversationItem = ({ conversation, onClick }) => {
       }`}
     >
       <h4 className="text-gray-600 text-xs">
-        {`${other.first_name} ${other.last_name}`}
+        {other ? `${other.first_name} ${other.last_name}` : ""}
       </h4>
       <h3 className="font-semibold text-gray-800 truncate">{itemTitle}</h3>
 

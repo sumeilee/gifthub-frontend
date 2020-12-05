@@ -1,14 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {CookiesProvider} from "react-cookie";
+import { CookiesProvider } from "react-cookie";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import { AuthContextProvider } from "./contexts/AuthContext";
+
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
-      <App />
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
     </CookiesProvider>
   </React.StrictMode>,
   document.getElementById("root")
