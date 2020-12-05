@@ -32,8 +32,6 @@ class Login extends React.Component {
   handleFormSubmission(e) {
     e.preventDefault();
 
-    console.log(baseURL);
-
     axios
       .post(
         `${baseURL}/user/login`,
