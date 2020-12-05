@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
 import "./App.css";
 
@@ -21,6 +21,7 @@ import Requests from "./components/pages/Requests";
 import Item from "./components/pages/Item";
 import NewItem from "./components/pages/item/NewItem";
 import EditItem from "./components/pages/item/EditItem";
+import Home from "./components/pages/Home";
 
 class App extends React.Component {
   render() {
@@ -42,7 +43,9 @@ class App extends React.Component {
             <Route path="/register" component={Register} />
             <ProtectedRoute path="/user/editprofile" component={EditProfile} />
             <ProtectedRoute path="/user/dashboard" component={Dashboard} />
-            <Route path="/" />
+            <Route path="/">
+              <Home />
+            </Route>
           </Switch>
           <Footer />
         </Router>

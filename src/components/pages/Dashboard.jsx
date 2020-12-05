@@ -124,11 +124,19 @@ class Dashboard extends React.Component {
                       </p>
                       <br />
                     </div>
-                    <button
-                      type="submit"
-                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400"
+                    <Link
+                      to={{
+                        pathname: `/items/${items._id}/edit`,
+                      }}
+                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                     >
                       Edit
+                    </Link>{" "}
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-red-400 hover:bg-red-5  00"
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
