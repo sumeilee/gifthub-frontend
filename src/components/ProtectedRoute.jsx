@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter, Redirect} from "react-router-dom";
+import {withRouter, Redirect, Route} from "react-router-dom";
 import {withCookies} from "react-cookie";
 
 class ProtectedRoute extends React.Component {
@@ -22,7 +22,7 @@ class ProtectedRoute extends React.Component {
     const Comp = this.props.component;
 
     return this.isAuthenticated() ? (
-      <Comp history={this.props.history} />
+      <Route {...this.props} component={Comp} />
     ) : (
       <Redirect to="/login" />
     );

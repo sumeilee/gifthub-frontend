@@ -22,6 +22,7 @@ import Requests from "./components/pages/Requests";
 import Item from "./components/pages/Item";
 import NewItem from "./components/pages/item/NewItem";
 import EditItem from "./components/pages/item/EditItem";
+import Home from "./components/pages/Home";
 
 import AuthContext from "./contexts/AuthContext";
 import SocketContext from "./contexts/SocketContext";
@@ -61,17 +62,19 @@ const App = () => {
             {/* Item Routes */}
             <Route path="/offers" component={Offers} />
             <Route path="/requests" component={Requests} />
-            <Route path="/items/new" component={NewItem} />
-            <Route path="/items/:id/edit" component={EditItem} />
+            <ProtectedRoute path="/items/new" component={NewItem} />
+            <ProtectedRoute path="/items/:id/edit" component={EditItem} />
             <Route path="/items/:id" component={Item} />
-            <Route path="/mailbox" component={Mailbox} />
+            <ProtectedRoute path="/mailbox" component={Mailbox} />
 
             {/* User Routes */}
             <GuestRoute path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <ProtectedRoute path="/user/editprofile" component={EditProfile} />
             <ProtectedRoute path="/user/dashboard" component={Dashboard} />
-            <Route path="/" />
+            <Route path="/">
+              <Home />
+            </Route>
           </Switch>
           <Footer />
         </Router>
