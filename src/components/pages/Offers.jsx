@@ -23,7 +23,7 @@ class Offers extends React.Component {
     const token = this.props.cookies.get("token");
     const me = jwt.decode(token);
 
-    api.listOffers().then((response) => {
+    this.listOffers().then((response) => {
       //   console.log(response.data);
       this.setState({
         list: response.data,
@@ -32,9 +32,9 @@ class Offers extends React.Component {
     });
   }
 
-  // listOffers() {
-  //   return axios.get("http://localhost:5000/api/v1/offers");
-  // }
+  listOffers() {
+    return axios.get("http://localhost:5000/api/v1/offers");
+  }
 
   async handleChatClick(users, item) {
     try {

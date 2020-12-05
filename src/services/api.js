@@ -88,13 +88,13 @@ const api = {
       data,
     });
   },
-  listOffers: (id) => {
+  listOffers: () => {
     return ax({
       method: "GET",
       url: `${baseURL}/offers`,
     });
   },
-  listRequests: (id) => {
+  listRequests: () => {
     return ax({
       method: "GET",
       url: `${baseURL}/requests`,

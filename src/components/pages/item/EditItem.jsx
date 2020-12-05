@@ -1,22 +1,17 @@
 import React from "react";
 import axios from "axios";
 import qs from "qs";
-// import css later
+import { withCookies } from "react-cookie";
+import api from "../../../services/api";
 
-// temp seed data, to link to API later
-const user = {
-  _id: "5fb8b003e1e86a126a37520d",
-  first_name: "Monica",
-  last_name: "Bing",
-  organisation: "Alexandro",
-};
+// import css later
 
 class EditItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       item: null,
-      user: null,
+      // user: null,
     };
   }
 
@@ -25,29 +20,32 @@ class EditItem extends React.Component {
   componentDidMount() {
     const itemID = this.props.match.params.id;
 
-    this.getItem(itemID).then((response) => {
+    api.getItem(itemID).then((response) => {
       // console.log("getItem:" + response);
       this.setState({
         item: response.data,
-        user: user, //to update later
+        // user: user, //to update later
       });
     });
   }
 
   handleInputChange(e) {
-    const {item} = this.state; //destructure
+    const { item } = this.state; //destructure
     item[e.target.name] = e.target.value;
-    this.setState({item});
+    this.setState({ item });
   }
 
-  getItem(itemID) {
-    return axios.get("http://localhost:5000/api/v1/items/" + itemID);
-  }
+  // getItem(itemID) {
+  //   return axios.get("http://localhost:5000/api/v1/items/" + itemID);
+  // }
 
   //add form validation later
 
   handleFormSubmit(e) {
     e.preventDefault();
+    axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
+      "token"
+    );
 
     // // clear form messages
     const itemID = this.props.match.params.id;
@@ -56,7 +54,10 @@ class EditItem extends React.Component {
     const formData = this.state.item;
 
     axios
-      .patch("http://localhost:5000/api/v1/items/" + itemID, qs.stringify(formData))
+      .patch(
+        "http://localhost:5000/api/v1/items/" + itemID,
+        qs.stringify(formData)
+      )
       .then((result) => {
         // console.log("new result" + result);
         console.log(formData);
@@ -82,7 +83,10 @@ class EditItem extends React.Component {
               {/* <form> */}
               {/* //=== postType ==== // */}
               <div className="form-group">
-                <label htmlFor="postType" className="text-base font-medium text-gray-700">
+                <label
+                  htmlFor="postType"
+                  className="text-base font-medium text-gray-700"
+                >
                   Type:
                 </label>{" "}
                 <select
@@ -102,7 +106,10 @@ class EditItem extends React.Component {
               </div>
               {/* //=== Title ==== // */}
               <div className="mt-2">
-                <label htmlFor="title" className="text-base font-medium text-gray-700">
+                <label
+                  htmlFor="title"
+                  className="text-base font-medium text-gray-700"
+                >
                   Title:
                 </label>{" "}
                 <input
@@ -158,7 +165,9 @@ class EditItem extends React.Component {
                   <option value="">-----</option>
                   <option value="Furniture">Furniture</option>
                   <option value="Appliances">Appliances</option>
-                  <option value="Infant & Children">Infant & Children</option>
+                  <option value="Infant and Children">
+                    Infant and Children
+                  </option>
                   <option value="Medical Aids">Medical Aids</option>
                   <option value="Food">Food</option>
                 </select>
@@ -182,7 +191,10 @@ class EditItem extends React.Component {
               </div> */}
               {/* //=== Delivery ==== // */}
               <div className="mt-2">
-                <label htmlFor="delivery" className="text-base font-medium text-gray-700">
+                <label
+                  htmlFor="delivery"
+                  className="text-base font-medium text-gray-700"
+                >
                   Delivery:
                 </label>{" "}
                 <select
@@ -202,7 +214,10 @@ class EditItem extends React.Component {
               </div>
               {/* //=== Status ==== // */}
               <div className="mt-2">
-                <label htmlFor="status" className="text-base font-medium text-gray-700">
+                <label
+                  htmlFor="status"
+                  className="text-base font-medium text-gray-700"
+                >
                   Status:
                 </label>{" "}
                 <select
@@ -223,7 +238,10 @@ class EditItem extends React.Component {
               </div>
               {/* //=== Tags ==== // */}
               <div className="mt-2">
-                <label htmlFor="tags" className="inline-flex text-base font-medium text-gray-700">
+                <label
+                  htmlFor="tags"
+                  className="inline-flex text-base font-medium text-gray-700"
+                >
                   Tags:
                 </label>
                 <input
@@ -263,7 +281,10 @@ class EditItem extends React.Component {
                   name="check-tnc"
                   defaultChecked
                 />{" "}
-                <label htmlFor="check-tnc" className="text-base font-medium text-gray-700">
+                <label
+                  htmlFor="check-tnc"
+                  className="text-base font-medium text-gray-700"
+                >
                   Yes, I agree to Gifthub's terms & conditions for donations.
                 </label>
               </div>
@@ -288,4 +309,4 @@ class EditItem extends React.Component {
   }
 }
 
-export default EditItem;
+export default withCookies(EditItem);

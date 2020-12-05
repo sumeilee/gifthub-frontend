@@ -23,7 +23,7 @@ class Requests extends React.Component {
     const token = this.props.cookies.get("token");
     const me = jwt.decode(token);
 
-    api.listRequests().then((response) => {
+    this.listRequests().then((response) => {
       this.setState({
         list: response.data,
         me,
@@ -31,9 +31,9 @@ class Requests extends React.Component {
     });
   }
 
-  // listRequests() {
-  //   return axios.get("http://localhost:5000/api/v1/requests");
-  // }
+  listRequests() {
+    return axios.get("http://localhost:5000/api/v1/requests");
+  }
 
   async handleChatClick(users, item) {
     try {
