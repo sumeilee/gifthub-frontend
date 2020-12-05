@@ -11,6 +11,8 @@ import ErrorMsg from "../ErrorMsg";
 
 import AuthContext from "../../contexts/AuthContext";
 
+import { baseURL } from "../../services/api";
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +34,7 @@ class Login extends React.Component {
 
     axios
       .post(
-        "http://localhost:5000/api/v1/user/login",
+        `${baseURL}/user/login`,
         qs.stringify({
           email: this.state.email,
           password: this.state.password,

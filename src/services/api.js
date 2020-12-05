@@ -1,6 +1,10 @@
 import axios from "axios";
+import qs from "qs";
 
-const baseURL = "http://localhost:5000/api/v1";
+export const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://gifthubsg-backend.herokuapp.com/api/v1"
+    : "http://localhost:5000/api/v1";
 
 const ax = axios.create({
   baseURL,
@@ -89,6 +93,13 @@ const api = {
       data,
     });
   },
+  createItem: (data) => {
+    return ax({
+      method: "POST",
+      url: `${baseURL}/items/`,
+      data,
+    });
+  },
   listOffers: () => {
     return ax({
       method: "GET",
@@ -101,6 +112,7 @@ const api = {
       url: `${baseURL}/requests`,
     });
   },
+
   createTransaction: (donorID, requestorID, item) => {
     const data = {
       donorID,
