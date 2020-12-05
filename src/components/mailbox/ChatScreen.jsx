@@ -7,7 +7,7 @@ import MailboxContext from "../../contexts/MailboxContext";
 import api from "../../services/api";
 
 const ChatScreen = () => {
-  const { currentConversation } = useContext(MailboxContext);
+  const { currentConversation, counter } = useContext(MailboxContext);
   const [messages, setMessages] = useState([]);
 
   const addMessage = (message) => {
@@ -23,7 +23,7 @@ const ChatScreen = () => {
       }
     }
     getMessages();
-  }, [currentConversation]);
+  }, [currentConversation, counter]);
 
   return (
     <div className="flex flex-col h-full w-full overflow-auto justify-between px-4">

@@ -22,7 +22,6 @@ class Header extends React.Component {
           },
         })
         .then((result) => {
-          console.log(result);
           if (result.data.success) {
             this.setState({
               user: result.data.user,
