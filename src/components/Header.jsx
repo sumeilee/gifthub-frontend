@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import axios from "axios";
-import { withCookies } from "react-cookie";
-import { withRouter } from "react-router-dom";
+import {withCookies} from "react-cookie";
+import {withRouter} from "react-router-dom";
 
 class Header extends React.Component {
   constructor(props) {
@@ -24,7 +24,6 @@ class Header extends React.Component {
         .then((result) => {
           console.log(result);
           if (result.data.success) {
-            console.log(result.data.success);
             this.setState({
               user: result.data.user,
             });
@@ -42,7 +41,7 @@ class Header extends React.Component {
 
   handleLogout(e) {
     e.preventDefault();
-    this.props.cookies.remove("token", { path: "/" });
+    this.props.cookies.remove("token", {path: "/"});
     window.location.href = "/";
   }
 
@@ -52,6 +51,7 @@ class Header extends React.Component {
         <div className="flex justify-between h-20 items-centers px-6 py-4 sm:p-0">
           <div className="flex items-center">
             <Link to="/" className="block text-3xl block text-white font-bold">
+              <img src="/giftHub_icon.png" className="inline" width="70" height="70" />
               giftHUB
             </Link>
           </div>
