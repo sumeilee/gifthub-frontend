@@ -19,25 +19,26 @@ const Mailbox = (props) => {
   let [counter, setCounter] = useState(0);
   const { currentSocket } = useContext(SocketContext);
 
-  const messageRerender = (message) => {
-    console.log("calling rerender");
-    console.log(currentSocket);
-    console.log(currentConversation);
+  const messageRerender = async (message) => {
     if (currentSocket && currentConversation) {
-      if (conversations.length > 0) {
-        const messageConversation = conversations.filter(
-          (convo) => convo._id === message.conversation
-        )[0];
-        console.log(currentConversation._id);
-        console.log(message.conversation);
-        console.log(messageConversation);
-        if (
-          messageConversation &&
-          currentConversation._id !== message.conversation
-        ) {
-          setCurrentConversation(messageConversation);
-        } else {
-          setCounter(++counter);
+      if (me) {
+        const response = await api.getConversationsByUser(me.id);
+        const conversations = response.data.conversations;
+
+        if (conversations.length > 0) {
+          const messageConversation = conversations.filter(
+            (convo) => convo._id === message.conversation
+          )[0];
+
+          if (
+            messageConversation &&
+            currentConversation._id !== message.conversation
+          ) {
+            setCurrentConversation(messageConversation);
+            setConversations(conversations);
+          } else {
+            setCounter(++counter);
+          }
         }
       }
     }
@@ -50,7 +51,7 @@ const Mailbox = (props) => {
         messageRerender(message);
       });
     }
-  }, [currentSocket, currentConversation, conversations]);
+  }, [currentSocket, currentConversation]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getConversations = async () => {
     try {

@@ -4,12 +4,14 @@ import ConversationItem from "./ConversationItem";
 import MailboxContext from "../../contexts/MailboxContext";
 
 const ConversationList = (props) => {
-  const { setCurrentConversation, counter } = useContext(MailboxContext);
+  const { setCurrentConversation, currentConversation, counter } = useContext(
+    MailboxContext
+  );
 
   useEffect(() => {
     // console.log("conversation list rerendering");
     return;
-  }, [counter]);
+  }, [currentConversation, counter]);
 
   const handleClick = async (conversation) => {
     setCurrentConversation(conversation);

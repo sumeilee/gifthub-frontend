@@ -15,6 +15,10 @@ const ConversationItem = ({ conversation, onClick }) => {
     : null;
 
   useEffect(() => {
+    return;
+  }, [currentConversation]);
+
+  useEffect(() => {
     async function getItem() {
       const response = await api.getItem(conversation.item);
       setItemTitle(response.data.title);

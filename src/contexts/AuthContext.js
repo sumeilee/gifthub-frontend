@@ -15,7 +15,7 @@ export const AuthContextProvider = withCookies((props) => {
     if (token) {
       setUser(jwt.decode(token));
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
