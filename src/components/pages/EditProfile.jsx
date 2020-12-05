@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import qs from "qs";
 import {withCookies} from "react-cookie";
+import {baseURL} from "../../services/api";
 
 class EditProfile extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class EditProfile extends React.Component {
     axios.defaults.headers.common["auth_token"] = this.props.cookies.get("token");
 
     axios
-      .get("http://localhost:5000/api/v1/users/me")
+      .get(`${baseURL}/users/me`)
 
       .then((result) => {
         this.setState({
@@ -30,8 +31,6 @@ class EditProfile extends React.Component {
         });
       })
       .catch((err) => console.log(err));
-    console.log("history");
-    console.log(this.props.history);
   }
 
   handleFirstNameChange(e) {
@@ -88,7 +87,7 @@ class EditProfile extends React.Component {
     console.log(this.props.cookies.get("token"));
     axios
       .patch(
-        "http://localhost:5000/api/v1/users/me",
+        `${baseURL}/users/me`,
         qs.stringify({
           first_name: this.state.user.first_name,
           last_name: this.state.user.last_name,
@@ -106,7 +105,6 @@ class EditProfile extends React.Component {
       )
       .then((response) => {
         if (!response.data.success) {
-          console.log(response);
           this.setState({
             formErr: "Update unsuccessful",
           });
@@ -117,7 +115,6 @@ class EditProfile extends React.Component {
       })
 
       .catch((err) => {
-        console.log(err);
         this.setState({
           formErr: "Error occurred in form, please check values",
         });
@@ -126,9 +123,9 @@ class EditProfile extends React.Component {
 
   render() {
     return (
-      <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8max-w-md w-full space-y-8">
-        <div className="max-w-md w-full space-y-8">
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Edit Profile</h2>
+      <div className="page-item container mx-auto px-10 flex flex-col">
+        <div className="container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-yellow-300 border-opacity-75 shadow overflow-hidden">
+          <h2 class="text-xl font-bold text-center">Edit Profile</h2>
           <form
             className="mt-5 mb-5"
             onSubmit={(e) => {
@@ -229,6 +226,8 @@ class EditProfile extends React.Component {
             ) : (
               ""
             )}
+            <br />
+            <p>*Changes made will only be reflected on the next login</p>
             <button
               type="submit"
               className=" mt-8 space-y-6 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-yellow-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
