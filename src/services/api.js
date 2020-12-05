@@ -88,6 +88,18 @@ const api = {
       data,
     });
   },
+  listOffers: (id) => {
+    return ax({
+      method: "GET",
+      url: `${baseURL}/offers`,
+    });
+  },
+  listRequests: (id) => {
+    return ax({
+      method: "GET",
+      url: `${baseURL}/requests`,
+    });
+  },
   createTransaction: (donorID, requestorID, item) => {
     const data = {
       donorID,

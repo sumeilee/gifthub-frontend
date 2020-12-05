@@ -23,7 +23,7 @@ class Requests extends React.Component {
     const token = this.props.cookies.get("token");
     const me = jwt.decode(token);
 
-    this.listRequests().then((response) => {
+    api.listRequests().then((response) => {
       this.setState({
         list: response.data,
         me,
@@ -31,9 +31,9 @@ class Requests extends React.Component {
     });
   }
 
-  listRequests() {
-    return axios.get("http://localhost:5000/api/v1/requests");
-  }
+  // listRequests() {
+  //   return axios.get("http://localhost:5000/api/v1/requests");
+  // }
 
   async handleChatClick(users, item) {
     try {
@@ -115,7 +115,7 @@ class Requests extends React.Component {
                           }}
                           className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                         >
-                          Donate
+                          View Item
                         </Link>
                         <button
                           type="submit"
