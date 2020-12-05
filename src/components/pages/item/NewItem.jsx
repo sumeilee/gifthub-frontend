@@ -167,7 +167,7 @@ class NewItem extends React.Component {
               </select>
             </div>
             {/* //=== Images ==== // */}
-            <div className="mt-2">
+            {/* <div className="mt-2">
               <label
                 htmlFor="images"
                 className="inline-flex text-base font-medium text-gray-700"
@@ -184,7 +184,7 @@ class NewItem extends React.Component {
                   this.handleInputChange(e);
                 }} //check if works later
               />
-            </div>
+            </div> */}
             {/* //=== Tags ==== // */}
             <div className="mt-2">
               <label

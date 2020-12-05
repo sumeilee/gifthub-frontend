@@ -32,7 +32,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="dashboard h-full items-start w-full pt-4 container mx-auto px-10 flex flex-col">
+      <div className="dashboard items-start w-full pt-4 container mx-auto px-10 flex flex-col">
         <table className="table-auto">
           <tbody>
             <tr className="w-full  h-10">
