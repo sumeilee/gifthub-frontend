@@ -1,12 +1,15 @@
 import React from "react";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 import qs from "qs";
 import moment from "moment";
-import {withCookies} from "react-cookie";
-import {withRouter} from "react-router-dom";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
 
 import FormInput from "./../form/FormInput";
 import ErrorMsg from "../ErrorMsg";
+
+import AuthContext from "../../contexts/AuthContext";
 
 class Login extends React.Component {
   constructor(props) {
@@ -48,7 +51,11 @@ class Login extends React.Component {
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
 
-        // this.props.history.push("/user/dashboard");
+        console.log("login token");
+        console.log(jwt.decode(response.data.token));
+
+        this.context.setUser(jwt.decode(response.data.token));
+
         window.location.reload();
       })
       .catch((err) => {
@@ -97,9 +104,12 @@ class Login extends React.Component {
             </button>
           </form>
         </div>
+
       </div>
     );
   }
 }
+
+Login.contextType = AuthContext;
 
 export default withRouter(withCookies(Login));

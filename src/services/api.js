@@ -21,9 +21,10 @@ const api = {
       url: `${baseURL}/messages?conversation=${conversationId}&asc=1`,
     });
   },
-  createMessage: (author, message, attachments, conversation) => {
+  createMessage: (author, recipient, message, attachments, conversation) => {
     const data = {
       author,
+      recipient,
       message,
       attachments,
       conversation,
@@ -86,6 +87,18 @@ const api = {
       method: "PATCH",
       url: `${baseURL}/items/${id}`,
       data,
+    });
+  },
+  listOffers: () => {
+    return ax({
+      method: "GET",
+      url: `${baseURL}/offers`,
+    });
+  },
+  listRequests: () => {
+    return ax({
+      method: "GET",
+      url: `${baseURL}/requests`,
     });
   },
   createTransaction: (donorID, requestorID, item) => {

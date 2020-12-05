@@ -1,5 +1,6 @@
-import React from "react";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { io } from "socket.io-client";
 
 import "./App.css";
 
@@ -23,10 +24,38 @@ import NewItem from "./components/pages/item/NewItem";
 import EditItem from "./components/pages/item/EditItem";
 import Home from "./components/pages/Home";
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="flex flex-col justify-between h-full">
+import AuthContext from "./contexts/AuthContext";
+import SocketContext from "./contexts/SocketContext";
+
+let socket;
+
+try {
+  socket = io("http://localhost:5000", {
+    reconnection: false,
+  });
+} catch (err) {
+  console.log(err.message);
+}
+
+const App = () => {
+  const [currentSocket, setCurrentSocket] = useState(null);
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log(`new connection ${socket.id}`);
+        if (user) {
+          socket.emit("login", user.id);
+        }
+        setCurrentSocket(socket);
+      });
+    }
+  }, [user]);
+
+  return (
+    <div className="flex flex-col justify-between h-full">
+      <SocketContext.Provider value={{ currentSocket, setCurrentSocket }}>
         <Router>
           <Header />
           <Switch>
@@ -49,9 +78,9 @@ class App extends React.Component {
           </Switch>
           <Footer />
         </Router>
-      </div>
-    );
-  }
-}
+      </SocketContext.Provider>
+    </div>
+  );
+};
 
 export default App;

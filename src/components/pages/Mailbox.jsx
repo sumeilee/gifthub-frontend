@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import { withCookies } from "react-cookie";
 import jwt from "jsonwebtoken";
@@ -10,18 +10,55 @@ import ItemPreview from "../mailbox/ItemPreview";
 import api from "../../services/api";
 
 import MailboxContext from "../../contexts/MailboxContext";
+import SocketContext from "../../contexts/SocketContext";
 
 const Mailbox = (props) => {
   const [conversations, setConversations] = useState([]);
   const [currentConversation, setCurrentConversation] = useState(null);
   const [me, setMe] = useState(null);
+  let [counter, setCounter] = useState(0);
+  const { currentSocket } = useContext(SocketContext);
+
+  const messageRerender = async (message) => {
+    if (currentSocket && currentConversation) {
+      if (me) {
+        const response = await api.getConversationsByUser(me.id);
+        const conversations = response.data.conversations;
+
+        if (conversations.length > 0) {
+          const messageConversation = conversations.filter(
+            (convo) => convo._id === message.conversation
+          )[0];
+
+          if (
+            messageConversation &&
+            currentConversation._id !== message.conversation
+          ) {
+            setCurrentConversation(messageConversation);
+            setConversations(conversations);
+          } else {
+            setCounter(++counter);
+          }
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (currentSocket) {
+      currentSocket.on("message", (message) => {
+        console.log(message.message);
+        messageRerender(message);
+      });
+    }
+  }, [currentSocket, currentConversation]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getConversations = async () => {
     try {
       if (me) {
         const response = await api.getConversationsByUser(me.id);
         const conversations = response.data.conversations;
-        // console.log(conversations);
+
         setConversations(conversations);
       }
     } catch (err) {
@@ -43,7 +80,7 @@ const Mailbox = (props) => {
 
   useEffect(() => {
     getConversations();
-  }, [me]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [me, counter]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
     () => {
@@ -69,6 +106,7 @@ const Mailbox = (props) => {
             getConversations,
             me,
             setMe,
+            counter,
           }}
         >
           <div className="h-full flex overflow-auto items-start divide-x divide-gray-200 divide-solid p-6">

@@ -116,7 +116,7 @@ class Offers extends React.Component {
                           }}
                           className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 hover:no-underline hover:text-gray-800"
                         >
-                          Request
+                          View Item
                         </Link>
                         <button
                           type="submit"

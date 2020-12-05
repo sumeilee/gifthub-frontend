@@ -1,10 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import ConversationItem from "./ConversationItem";
 
 import MailboxContext from "../../contexts/MailboxContext";
 
 const ConversationList = (props) => {
-  const { setCurrentConversation } = useContext(MailboxContext);
+  const { setCurrentConversation, currentConversation, counter } = useContext(
+    MailboxContext
+  );
+
+  useEffect(() => {
+    // console.log("conversation list rerendering");
+    return;
+  }, [currentConversation, counter]);
 
   const handleClick = async (conversation) => {
     setCurrentConversation(conversation);
