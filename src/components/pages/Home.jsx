@@ -13,7 +13,7 @@ class Home extends React.Component {
         <div
           className="flex justify-left text-left text-4xl font-extrabold text-white  pl-5 pt-20 mt-20 "
           style={{
-            textShadow: "3px 2px 0px rgb(202, 61, 118)",
+            textShadow: "3px 2px 1px rgb(202, 61, 118)",
             backgroundSize: "cover",
           }}
         >
@@ -22,7 +22,7 @@ class Home extends React.Component {
         <div
           className=" flex justify-left font-bold text-2xl text-white text-left pl-5 "
           style={{
-            textShadow: "3px 2px 0px rgb(202, 61, 118)",
+            textShadow: "3px 2px 1px rgb(202, 61, 118)",
           }}
         >
           <p>Click into offers to see listings by donors that may benefit you.</p>
@@ -30,7 +30,7 @@ class Home extends React.Component {
         <div
           className=" flex justify-left font-bold text-2xl text-white text-left pl-5"
           style={{
-            textShadow: "3px 2px 0px rgb(202, 61, 118)",
+            textShadow: "3px 2px 1px rgb(202, 61, 118)",
           }}
         >
           <p2>Click into requests to see listings by requestors that you may donate to .</p2>
