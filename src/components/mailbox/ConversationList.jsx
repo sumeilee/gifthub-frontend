@@ -7,7 +7,8 @@ const ConversationList = (props) => {
   const { setCurrentConversation, counter } = useContext(MailboxContext);
 
   useEffect(() => {
-    console.log("conversation list rerendering");
+    // console.log("conversation list rerendering");
+    return;
   }, [counter]);
 
   const handleClick = async (conversation) => {

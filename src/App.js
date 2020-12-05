@@ -26,26 +26,29 @@ import EditItem from "./components/pages/item/EditItem";
 import AuthContext from "./contexts/AuthContext";
 import SocketContext from "./contexts/SocketContext";
 
+let socket;
+
+try {
+  socket = io("http://localhost:5000", {
+    reconnection: false,
+  });
+} catch (err) {
+  console.log(err.message);
+}
+
 const App = () => {
   const [currentSocket, setCurrentSocket] = useState(null);
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    try {
-      const socket = io("http://localhost:5000", {
-        reconnection: false,
+    if (socket) {
+      socket.on("connect", () => {
+        console.log(`new connection ${socket.id}`);
+        if (user) {
+          socket.emit("login", user.id);
+        }
+        setCurrentSocket(socket);
       });
-      if (socket) {
-        socket.on("connect", () => {
-          console.log(`new connection ${socket.id}`);
-          if (user) {
-            socket.emit("login", user.id);
-          }
-          setCurrentSocket(socket);
-        });
-      }
-    } catch (err) {
-      console.log(err.message);
     }
   }, [user]);
 
