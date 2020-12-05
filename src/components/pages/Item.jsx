@@ -35,6 +35,8 @@ class Item extends React.Component {
       user = jwt.decode(token);
     }
 
+    api.setAuthHeaderToken(token);
+
     this.getItem(itemID).then((response) => {
       console.log(response.data);
       this.setState({
@@ -77,7 +79,7 @@ class Item extends React.Component {
       return;
     }
 
-    const users = [this.state.user._id, this.state.item.postedBy._id];
+    const users = [this.state.user.id, this.state.item.postedBy._id];
     const item = this.state.item._id;
 
     try {

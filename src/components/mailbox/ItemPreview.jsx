@@ -1,15 +1,20 @@
 import { useState, useEffect, useContext } from "react";
+import { withCookies } from "react-cookie";
 import MailboxContext from "../../contexts/MailboxContext";
 
 import api from "../../services/api";
 
-const ItemPreview = () => {
+const ItemPreview = (props) => {
   const { currentConversation, me, toggle } = useContext(MailboxContext);
   const [currentItem, setCurrentItem] = useState(null);
 
   const other = currentConversation
     ? currentConversation.users.filter((user) => user._id !== me.id)[0]
     : null;
+
+  useEffect(() => {
+    api.setAuthHeaderToken(props.cookies.get("token"));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     async function getItem() {
@@ -122,4 +127,4 @@ const ItemPreview = () => {
   );
 };
 
-export default ItemPreview;
+export default withCookies(ItemPreview);
