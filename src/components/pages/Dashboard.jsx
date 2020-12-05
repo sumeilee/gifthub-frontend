@@ -1,26 +1,22 @@
 import React from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
-import { withCookies } from "react-cookie";
+import {withCookies} from "react-cookie";
+import {baseURL} from "../../services/api";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: { first_name: "" },
+      user: {first_name: ""},
       userItems: [],
     };
   }
   componentDidMount() {
-    axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
-      "token"
-    );
+    axios.defaults.headers.common["auth_token"] = this.props.cookies.get("token");
     axios
-      .all([
-        axios.get("http://localhost:5000/api/v1/users/me"),
-        axios.get("http://localhost:5000/api/v1/users/items"),
-      ])
+      .all([axios.get(`${baseURL}/users/me`), axios.get(`${baseURL}/users/items`)])
       .then((responseArr) => {
         this.setState({
           user: responseArr[0].data.user,
@@ -32,7 +28,7 @@ class Dashboard extends React.Component {
 
   handleDelete(e, itemID) {
     axios
-      .delete(`http://localhost:5000/api/v1/items/${itemID}`)
+      .delete(`${baseURL}/items/${itemID}`)
       .then(window.location.reload())
       .catch((err) => console.log(err));
   }
@@ -106,9 +102,7 @@ class Dashboard extends React.Component {
                 <div className=" container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
-                      <p className="text-base font-bold tracking-wider">
-                        {items.title}
-                      </p>
+                      <p className="text-base font-bold tracking-wider">{items.title}</p>
                       <p>
                         Date posted:{" "}
                         {new Date(items.createdAt).toLocaleDateString("en-GB", {
@@ -117,9 +111,7 @@ class Dashboard extends React.Component {
                           day: "numeric",
                         })}
                       </p>
-                      <p className="break-words">
-                        Description: {items.description}
-                      </p>
+                      <p className="break-words">Description: {items.description}</p>
                       <p>Category: {items.category}</p>
                       <p>Post type: {items.postType}</p>
                       <p>
