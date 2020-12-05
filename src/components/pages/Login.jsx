@@ -67,45 +67,44 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="h-full flex justify-center items-center">
-        <form
-          className="flex flex-col items-center py-6"
-          onSubmit={(e) => {
-            this.handleFormSubmission(e);
-          }}
-        >
-          <FormInput
-            type="email"
-            label="Email"
-            name="email"
-            id="email"
-            onChange={(e) => {
-              this.handleInputChange(e);
+      <div className="h-full w-full bg-contain bg-center  ">
+        <div className="h-full flex justify-center items-center">
+          <form
+            className="flex flex-col items-center py-6 "
+            onSubmit={(e) => {
+              this.handleFormSubmission(e);
             }}
-          />
-
-          <FormInput
-            type="password"
-            label="Password"
-            name="password"
-            id="password"
-            onChange={(e) => {
-              this.handleInputChange(e);
-            }}
-          />
-
-          {this.state.formErr !== "" ? (
-            <ErrorMsg msg={this.state.formErr} />
-          ) : (
-            ""
-          )}
-          <button
-            type="submit"
-            className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
           >
-            Login
-          </button>
-        </form>
+            <FormInput
+              type="email"
+              label="Email"
+              name="email"
+              id="email"
+              onChange={(e) => {
+                this.handleInputChange(e);
+              }}
+            />
+
+            <FormInput
+              type="password"
+              label="Password"
+              name="password"
+              id="password"
+              onChange={(e) => {
+                this.handleInputChange(e);
+              }}
+            />
+
+            {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
+            <button
+              type="submit"
+              className="text-white w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+
       </div>
     );
   }

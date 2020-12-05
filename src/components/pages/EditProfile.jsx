@@ -25,7 +25,6 @@ class EditProfile extends React.Component {
       .get("http://localhost:5000/api/v1/users/me")
 
       .then((result) => {
-        console.log(result);
         this.setState({
           user: result.data.user,
         });

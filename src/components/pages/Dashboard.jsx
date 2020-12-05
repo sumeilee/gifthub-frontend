@@ -30,6 +30,13 @@ class Dashboard extends React.Component {
       .catch((err) => console.log(err));
   }
 
+  handleDelete(e, itemID) {
+    axios
+      .delete(`http://localhost:5000/api/v1/items/${itemID}`)
+      .then(window.location.reload())
+      .catch((err) => console.log(err));
+  }
+
   render() {
     return (
       <div className="dashboard items-start w-full pt-4 container mx-auto px-10 flex flex-col">
@@ -37,7 +44,7 @@ class Dashboard extends React.Component {
           <tbody>
             <tr className="w-full  h-10">
               <td>
-                <div className="text-3xl font-bold text-center">
+                <div className="text-3xl font-extrabold text-center">
                   Hello, {this.state.user.first_name}!
                   <Link to="/user/editprofile">
                     <button
@@ -67,7 +74,7 @@ class Dashboard extends React.Component {
         </table>
 
         <br />
-        <div className=" text-gray-700 pt-0 pl-1 text-xl font text-center">
+        <div className=" text-gray-700 pt-0 pl-1 text-xl font-bold text-center">
           Items listed
           <Link to="/items/new">
             <button
@@ -140,6 +147,7 @@ class Dashboard extends React.Component {
                     </Link>{" "}
                     <button
                       type="submit"
+                      onClick={(e) => this.handleDelete(e, items._id)}
                       className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-red-400 hover:bg-red-5  00"
                     >
                       Delete
