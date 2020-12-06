@@ -35,12 +35,12 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="dashboard items-start w-full pt-4 container mx-auto px-10 flex flex-col">
-        <table className="table-auto">
+      <div className="dashboard  w-full bg-contain bg-center ">
+        <table className="table-auto  ">
           <tbody>
-            <tr className="w-full  h-10">
+            <tr className="w-full  h-full  ">
               <td>
-                <div className="text-3xl font-extrabold text-center">
+                <div className="text-3xl font-extrabold mb-10 ml-5   mt-5 text-center text-3xl font-bold justify-between ">
                   Hello, {this.state.user.first_name}!
                   <Link to="/user/editprofile">
                     <button
@@ -66,41 +66,41 @@ class Dashboard extends React.Component {
                 </div>
               </td>
             </tr>
+            <div className=" text-gray-700 ml-5   pl-5 text-xl font-bold justify-left">
+              Items listed
+              <Link to="/items/new">
+                <button
+                  className=" transform hover:scale-150 pl-0 pt-0 mt-2 mb-0 ml-2 pb-0 pt-0"
+                  title="Add item"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    width="17"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </button>
+              </Link>
+            </div>
           </tbody>
         </table>
 
         <br />
-        <div className=" text-gray-700 pt-0 pl-1 text-xl font-bold text-center">
-          Items listed
-          <Link to="/items/new">
-            <button
-              className=" transform hover:scale-150 pl-0 pt-0 mt-2 mb-0 ml-2 pb-0 pt-0"
-              title="Add item"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                width="17"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </button>
-          </Link>
-        </div>
 
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 ml-5 mr-5">
           {this.state.userItems.length > 0 ? (
             this.state.userItems.map((items) => {
               return (
-                <div className=" container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
-                  <div className="grid grid-cols-2 gap-4">
+                <div className=" container-item  border-2 px-4 py-8 mx-4 my-4 rounded-lg border-green-500 border-opacity-75 shadow overflow-hidden">
+                  <div className="grid grid-cols-2 gap-4 ">
                     <div className="col-span-2">
                       <p className="text-base font-bold tracking-wider">{items.title}</p>
                       <p>
@@ -140,7 +140,7 @@ class Dashboard extends React.Component {
                     <button
                       type="submit"
                       onClick={(e) => this.handleDelete(e, items._id)}
-                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-red-400 hover:bg-red-5  00"
+                      className="inline-flex justify-center text-gray-800 font-semibold px-4 py-2 rounded-md bg-red-400 hover:bg-red-500"
                     >
                       Delete
                     </button>
@@ -149,7 +149,7 @@ class Dashboard extends React.Component {
               );
             })
           ) : (
-            <p>No offers found.</p>
+            <p className="ml-10 pl-10">No items found.</p>
           )}
         </div>
         <br />

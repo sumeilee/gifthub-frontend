@@ -11,7 +11,7 @@ class Register extends React.Component {
     this.state = {
       firstName: "",
       lastName: "",
-      userType: "",
+      userType: "both",
       organisation: "",
       email: "",
       password: "",
@@ -67,6 +67,8 @@ class Register extends React.Component {
             this.handleFormSubmission(e);
           }}
         >
+          <h1 className="  mb-10 text-center text-3xl font-bold justify-between">Register </h1>
+
           <FormInput
             type="text"
             label="First Name"
@@ -106,41 +108,6 @@ class Register extends React.Component {
               this.handleInputChange(e);
             }}
           />
-
-          <div className="flex flex-col m-2 items-center sm:flex-row sm:flex-wrap sm:m-4">
-            <label htmlFor="userType" className="w-32 text-center mb-2 sm:text-left sm:pl-1 sm:m-0">
-              User Type
-            </label>
-            <select
-              defaultValue={"default"}
-              id="userType"
-              onChange={(e) => {
-                this.handleInputChange(e);
-              }}
-              className="w-64 border border-gray-300 rounded-lg outline-none py-2 px-3"
-              name="userType"
-            >
-              <option value="default" disabled>
-                Please select
-              </option>
-              <option value="requestor">Requestor</option>
-              <option value="donor">Donor</option>
-            </select>
-          </div>
-
-          {this.state.userType === "requestor" ? (
-            <FormInput
-              type="text"
-              label="Organisation"
-              name="organisation"
-              id="organisation"
-              onChange={(e) => {
-                this.handleInputChange(e);
-              }}
-            />
-          ) : (
-            ""
-          )}
 
           {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
           <button
