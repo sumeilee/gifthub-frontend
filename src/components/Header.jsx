@@ -4,7 +4,7 @@ import axios from "axios";
 import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
 
-import { baseURL } from "../../services/api";
+import { baseURL } from "../services/api";
 
 class Header extends React.Component {
   constructor(props) {
