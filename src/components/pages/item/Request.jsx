@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { withCookies } from "react-cookie";
 import moment from "moment";
 import api from "../../../services/api";
 // import css later
@@ -17,6 +18,10 @@ class Request extends React.Component {
       checkTnc: false,
       errMsg: "",
     };
+  }
+
+  componentDidMount() {
+    api.setAuthHeaderToken(this.props.cookies.get("token"));
   }
 
   handleInputChange(e) {
@@ -152,4 +157,4 @@ class Request extends React.Component {
   }
 }
 
-export default withRouter(Request);
+export default withCookies(withRouter(Request));

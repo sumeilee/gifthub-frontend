@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { withCookies } from "react-cookie";
 import moment from "moment";
 import api from "../../../services/api";
 // import css later
@@ -17,6 +18,10 @@ class Donate extends React.Component {
       checkTnc: false,
       errMsg: "",
     };
+  }
+
+  componentDidMount() {
+    api.setAuthHeaderToken(this.props.cookies.get("token"));
   }
 
   handleInputChange(e) {
@@ -66,8 +71,7 @@ class Donate extends React.Component {
       }
 
       const users = [item.postedBy._id, user.id];
-      console.log(users);
-      console.log(item._id);
+
       try {
         const conversation = await api.getOrCreateConversation(users, item._id);
 
@@ -208,4 +212,4 @@ class Donate extends React.Component {
   }
 }
 
-export default withRouter(Donate);
+export default withCookies(withRouter(Donate));

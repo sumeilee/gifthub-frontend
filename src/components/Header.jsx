@@ -1,8 +1,10 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import {withCookies} from "react-cookie";
-import {withRouter} from "react-router-dom";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
+
+import { baseURL } from "../services/api";
 
 class Header extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ class Header extends React.Component {
   componentDidMount() {
     if (this.props.cookies.get("token") !== "") {
       axios
-        .get("http://localhost:5000/api/v1/users/me", {
+        .get(`${baseURL}/users/me`, {
           headers: {
             auth_token: this.props.cookies.get("token"),
           },
@@ -40,7 +42,7 @@ class Header extends React.Component {
 
   handleLogout(e) {
     e.preventDefault();
-    this.props.cookies.remove("token", {path: "/"});
+    this.props.cookies.remove("token", { path: "/" });
     window.location.href = "/";
   }
 
@@ -50,7 +52,13 @@ class Header extends React.Component {
         <div className="flex justify-between h-20 items-centers px-6 py-4 sm:p-0">
           <div className="flex items-center">
             <Link to="/" className="block text-3xl block text-white font-bold">
-              <img src="/giftHub_icon.png" className="inline" width="60" height="60" />
+              <img
+                src="/giftHub_icon.png"
+                className="inline"
+                width="60"
+                height="60"
+                alt="gift"
+              />
               giftHUB
             </Link>
           </div>

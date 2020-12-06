@@ -3,15 +3,15 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import qs from "qs";
 import moment from "moment";
-import { withCookies } from "react-cookie";
-import { withRouter } from "react-router-dom";
+import {withCookies} from "react-cookie";
+import {withRouter} from "react-router-dom";
 
 import FormInput from "./../form/FormInput";
 import ErrorMsg from "../ErrorMsg";
 
 import AuthContext from "../../contexts/AuthContext";
 
-import { baseURL } from "../../services/api";
+import {baseURL} from "../../services/api";
 
 class Login extends React.Component {
   constructor(props) {
@@ -53,9 +53,6 @@ class Login extends React.Component {
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
 
-        console.log("login token");
-        console.log(jwt.decode(response.data.token));
-
         this.context.setUser(jwt.decode(response.data.token));
 
         window.location.reload();
@@ -77,6 +74,8 @@ class Login extends React.Component {
               this.handleFormSubmission(e);
             }}
           >
+            <h1 className="  mb-10 text-center text-3xl font-bold justify-between">Login</h1>
+
             <FormInput
               type="email"
               label="Email"
@@ -97,7 +96,11 @@ class Login extends React.Component {
               }}
             />
 
-            {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
+            {this.state.formErr !== "" ? (
+              <ErrorMsg msg={this.state.formErr} />
+            ) : (
+              ""
+            )}
             <button
               type="submit"
               className="text-white w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
@@ -106,7 +109,6 @@ class Login extends React.Component {
             </button>
           </form>
         </div>
-
       </div>
     );
   }

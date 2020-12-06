@@ -1,17 +1,19 @@
 import axios from "axios";
-// import qs from "qs";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
     ? "https://gifthubsg-backend.herokuapp.com/api/v1"
     : "http://localhost:5000/api/v1";
 
-const ax = axios.create({
+export const ax = axios.create({
   baseURL,
   timeout: 5000,
 });
 
 const api = {
+  setAuthHeaderToken: (token) => {
+    ax.defaults.headers.common["auth_token"] = token;
+  },
   getMessage: (id) => {
     return ax({
       method: "GET",

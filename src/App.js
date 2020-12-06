@@ -28,9 +28,13 @@ import AuthContext from "./contexts/AuthContext";
 import SocketContext from "./contexts/SocketContext";
 
 let socket;
+const socketHost =
+  process.env.NODE_ENV === "production"
+    ? "https://gifthubsg-backend.herokuapp.com"
+    : "http://localhost:5000";
 
 try {
-  socket = io("http://localhost:5000", {
+  socket = io(socketHost, {
     reconnection: false,
   });
 } catch (err) {

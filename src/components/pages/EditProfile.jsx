@@ -66,13 +66,6 @@ class EditProfile extends React.Component {
     });
   }
 
-  handleUserTypeChange(e) {
-    this.setState({
-      ...this.state.user,
-
-      userType: e.target.value,
-    });
-  }
   handleOrganisationChange(e) {
     this.setState({
       user: {
@@ -93,7 +86,6 @@ class EditProfile extends React.Component {
           last_name: this.state.user.last_name,
           email: this.state.user.email,
           password: this.state.user.password,
-          userType: this.state.user.userType,
           organisation: this.state.user.organisation,
         }),
 
@@ -190,18 +182,6 @@ class EditProfile extends React.Component {
               <label for="userType" className="sr-only">
                 {this.state.user.userType}
               </label>
-              <select
-                id="userType"
-                value={this.state.user.userType}
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                onChange={(e) => {
-                  this.handleUserTypeChange(e);
-                }}
-              >
-                <option>Please select user type</option>
-                <option>requestor</option>
-                <option>donor</option>
-              </select>
             </div>
             <div className="mt-8 space-y-6">
               <label htmlFor="organisation" className="sr-only">

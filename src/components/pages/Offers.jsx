@@ -2,7 +2,6 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { withCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-// import axios from "axios";
 import jwt from "jsonwebtoken";
 
 // import css later

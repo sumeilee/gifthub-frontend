@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import qs from "qs";
 import { withCookies } from "react-cookie";
 import api from "../../../services/api";
 // import css later

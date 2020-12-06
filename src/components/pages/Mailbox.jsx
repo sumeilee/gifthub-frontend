@@ -75,6 +75,8 @@ const Mailbox = (props) => {
       return;
     }
 
+    api.setAuthHeaderToken(token);
+
     setMe(decode);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
