@@ -25,7 +25,9 @@ class Home extends React.Component {
             textShadow: "3px 2px 1px rgb(202, 61, 118)",
           }}
         >
-          <p>Click into offers to see listings by donors that may benefit you.</p>
+          <p>
+            Click into offers to see listings by donors that may benefit you.
+          </p>
         </div>
         <div
           className=" flex justify-left font-bold text-2xl text-white text-left pl-5"
@@ -33,7 +35,10 @@ class Home extends React.Component {
             textShadow: "3px 2px 1px rgb(202, 61, 118)",
           }}
         >
-          <p2>Click into requests to see listings by requestors that you may donate to .</p2>
+          <p>
+            Click into requests to see listings by requestors that you may
+            donate to .
+          </p>
         </div>
       </div>
     );

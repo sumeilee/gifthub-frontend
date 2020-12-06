@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { withCookies } from "react-cookie";
 
 import api from "../../services/api";
 
@@ -43,6 +44,10 @@ const ChatInput = (props) => {
     }
   };
 
+  useEffect(() => {
+    api.setAuthHeaderToken(props.cookies.get("token"));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <form className="w-full flex items-center" onSubmit={handleSubmit}>
       <input
@@ -68,4 +73,4 @@ const ChatInput = (props) => {
   );
 };
 
-export default ChatInput;
+export default withCookies(ChatInput);

@@ -1,18 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
-
+import { withCookies } from "react-cookie";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 
 import MailboxContext from "../../contexts/MailboxContext";
 import api from "../../services/api";
 
-const ChatScreen = () => {
+const ChatScreen = (props) => {
   const { currentConversation, counter } = useContext(MailboxContext);
   const [messages, setMessages] = useState([]);
 
   const addMessage = (message) => {
     setMessages([...messages, message]);
   };
+
+  useEffect(() => {
+    api.setAuthHeaderToken(props.cookies.get("token"));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     async function getMessages() {
@@ -33,4 +37,4 @@ const ChatScreen = () => {
   );
 };
 
-export default ChatScreen;
+export default withCookies(ChatScreen);
