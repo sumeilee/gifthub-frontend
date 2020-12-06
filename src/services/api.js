@@ -1,5 +1,5 @@
 import axios from "axios";
-import qs from "qs";
+// import qs from "qs";
 
 export const baseURL =
   process.env.NODE_ENV === "production"
