@@ -4,6 +4,8 @@ import axios from "axios";
 import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
 
+import { baseURL } from "../services/api";
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +18,7 @@ class Header extends React.Component {
   componentDidMount() {
     if (this.props.cookies.get("token") !== "") {
       axios
-        .get("http://localhost:5000/api/v1/users/me", {
+        .get(`${baseURL}/users/me`, {
           headers: {
             auth_token: this.props.cookies.get("token"),
           },

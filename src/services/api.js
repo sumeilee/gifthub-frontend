@@ -5,9 +5,6 @@ export const baseURL =
     ? "https://gifthubsg-backend.herokuapp.com/api/v1"
     : "http://localhost:5000/api/v1";
 
-console.log(process.env.NODE_ENV);
-console.log(baseURL);
-
 export const ax = axios.create({
   baseURL,
   timeout: 5000,
