@@ -33,14 +33,6 @@ class Request extends React.Component {
   async handleSubmit() {
     let errMsg = "";
 
-    if (!this.state.checkCondition) {
-      errMsg += "Please confirm that the item is in good working condition. ";
-    }
-
-    if (!this.state.checkDelivery) {
-      errMsg += "Only items that include delivery can be accepted. ";
-    }
-
     if (!this.state.checkTnc) {
       errMsg += "Please accept the terms & conditions.";
     }
@@ -101,9 +93,6 @@ class Request extends React.Component {
         <p className="text-base font-medium text-gray-700">
           Name: {this.props.user.first_name} {this.props.user.last_name}
         </p>
-        <p className="text-base font-medium text-gray-700">
-          Organisation: {this.props.user.organisation}
-        </p>
         {/* //=== Delivery Date ==== // */}
         <div className="mt-2">
           <label
@@ -138,39 +127,8 @@ class Request extends React.Component {
             placeholder=""
           ></textarea>
         </div>
+
         {/* //=== Checkbox 1 ==== // */}
-        <div className="mt-4">
-          <input
-            type="checkbox"
-            className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
-            id="check-item-condition"
-            name="checkCondition"
-            onChange={(e) => this.handleInputChange(e)}
-          />{" "}
-          <label
-            htmlFor="check-item-condition"
-            className="text-base font-medium text-gray-700"
-          >
-            Item to be donated is in good working condition.
-          </label>
-        </div>
-        {/* //=== Checkbox 2 ==== // */}
-        <div className="mt-2">
-          <input
-            type="checkbox"
-            className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
-            id="check-delivery"
-            name="checkDelivery"
-            onChange={(e) => this.handleInputChange(e)}
-          />{" "}
-          <label
-            htmlFor="check-delivery"
-            className="text-base font-medium text-gray-700"
-          >
-            Delivery of item will be included.
-          </label>
-        </div>
-        {/* //=== Checkbox 3 ==== // */}
         <div className="mt-2">
           <input
             type="checkbox"
@@ -183,7 +141,7 @@ class Request extends React.Component {
             htmlFor="check-tnc"
             className="text-base font-medium text-gray-700"
           >
-            Yes, I agree to Gifthub's terms & conditions for donations.
+            Yes, I agree to Gifthub's terms & conditions for requests.
           </label>
         </div>
         <br />

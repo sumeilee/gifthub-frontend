@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { withCookies } from "react-cookie";
 import api from "../../../services/api";
+import FormMsg from "./FormMsg";
 
 // import css later
 
@@ -10,7 +11,11 @@ class EditItem extends React.Component {
     super(props);
     this.state = {
       item: null,
-      // user: null,
+      // user: this.props.user,
+      checkCondition: false,
+      checkTnc: false,
+      formMsg: [],
+      showFormMsg: false,
     };
   }
 
@@ -18,13 +23,21 @@ class EditItem extends React.Component {
 
   componentDidMount() {
     const itemID = this.props.match.params.id;
+    console.log("itemID: " + itemID);
+    console.log("curr_user:" + this.props.user);
+    axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
+      "token"
+    );
 
     api.getItem(itemID).then((response) => {
-      // console.log("getItem:" + response);
+      // console.log(response.data);
+
       this.setState({
         item: response.data,
-        // user: user, //to update later
+        // user: this.props.user._id,
       });
+
+      // check if user is owner of post later
     });
   }
 
@@ -34,23 +47,33 @@ class EditItem extends React.Component {
     this.setState({ item });
   }
 
+  handleCheckboxChange(e) {
+    this.setState({
+      [e.target.name]: e.target.checked,
+    });
+  }
+
   // getItem(itemID) {
   //   return axios.get("http://localhost:5000/api/v1/items/" + itemID);
   // }
 
-  //add form validation later
+  // add authentication of post owner later
 
   handleFormSubmit(e) {
     e.preventDefault();
     axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
       "token"
     );
+    // clear form messages
+    this.setState({
+      // user: this.state.item.postedBy._id, //to update later
+      formMsg: [],
+    });
 
-    // // clear form messages
     const itemID = this.props.match.params.id;
-    console.log(itemID);
-
+    // console.log(itemID);
     const formData = this.state.item;
+    console.log(formData);
 
     // axios
     //   .patch(
@@ -66,25 +89,21 @@ class EditItem extends React.Component {
     //     console.log(err);
     //   });
 
-    // add form validation later
-    const formValid = true; // update later
+    const formValid = this.validateFormInputs();
 
     if (formValid) {
       api
         .updateItem(itemID, formData)
         .then((response) => {
-          console.log(response.data);
-          console.log("edit form submitted successfully");
-          // // clear form input
-          // this.setState({
-          //   postType: "",
-          //   title: "",
-          //   description: "",
-          //   category: "",
-          //   // images: "",
-          //   tags: "",
-          //   delivery: "",
-          // });
+          // if (!response.data) {
+          //   console.log("error in form");
+          // }
+          console.log(response);
+          console.log("edit item submitted successfully");
+          this.setState({
+            showFormMsg: true,
+          });
+          this.scrollToTop();
         })
         .catch((err) => {
           console.log(err);
@@ -92,11 +111,66 @@ class EditItem extends React.Component {
     }
   }
 
+  validateFormInputs() {
+    const errMsg = [];
+    //pending check for special char
+    //pending stringify submission values
+
+    if (this.state.item.postType === "") {
+      errMsg.push("Type is required");
+    }
+    if (this.state.item.title === "") {
+      errMsg.push("Title is required");
+    } else if (this.state.item.title.length > 200) {
+      errMsg.push("Title must be 200 characters or less");
+    }
+    if (this.state.item.description === "") {
+      errMsg.push("Description is required");
+    }
+    if (this.state.item.category === "") {
+      errMsg.push("Category is required");
+    }
+    if (this.state.item.status === "") {
+      errMsg.push("Status is required");
+    }
+    if (this.state.item.delivery === "") {
+      errMsg.push("Delivery is required");
+    }
+    if (!this.state.checkCondition) {
+      errMsg.push("Please confirm that the item is in good working condition.");
+    }
+    if (!this.state.checkTnc) {
+      errMsg.push("Please accept the terms & conditions.");
+    }
+
+    if (errMsg.length === 0) {
+      return true;
+    }
+
+    this.setState({
+      formMsg: errMsg,
+    });
+    console.log(errMsg);
+    return false;
+  }
+
+  scrollToTop = () => {
+    this.pageTop.scrollIntoView({ behavior: "smooth" });
+  };
+
   render() {
     return (
-      <div className="page-item container mx-auto px-10 flex flex-col">
+      <div
+        className="page-item container mx-auto px-10 flex flex-col"
+        ref={(elem) => {
+          this.pageTop = elem;
+        }}
+      >
         {this.state.item ? (
           <div className="container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-yellow-300 border-opacity-75 shadow overflow-hidden">
+            {/* // Toggle Form Msg display */}
+            {this.state.showFormMsg ? <FormMsg /> : null}
+
             <p className="text-xl font-bold text-center">Edit Item Details</p>
             <br />
             <form
@@ -121,6 +195,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
+                  // required
                   // placeholder={this.state.item.postType}
                 >
                   <option value="">-----</option>
@@ -145,6 +220,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
+                  // required
                   // placeholder={this.state.item.title}
                 />
               </div>
@@ -165,6 +241,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
+                  // required
                   // placeholder={this.state.item.description}
                 ></textarea>
               </div>
@@ -184,6 +261,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
+                  // required
                   // placeholder={this.state.item.category}
                 >
                   <option value="">-----</option>
@@ -229,6 +307,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
+                  // required
                   // placeholder={this.state.item.delivery}
                 >
                   <option value="">-----</option>
@@ -252,6 +331,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
+                  // required
                   // placeholder={this.state.item.status}
                 >
                   <option value="">-----</option>
@@ -286,8 +366,11 @@ class EditItem extends React.Component {
                   type="checkbox"
                   className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
                   id="check-item-condition"
-                  name="check-item-condition"
-                  defaultChecked
+                  name="checkCondition"
+                  onChange={(e) => {
+                    this.handleCheckboxChange(e);
+                  }}
+                  // required
                 />{" "}
                 <label
                   htmlFor="check-item-condition"
@@ -302,8 +385,11 @@ class EditItem extends React.Component {
                   type="checkbox"
                   className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
                   id="check-tnc"
-                  name="check-tnc"
-                  defaultChecked
+                  name="checkTnc"
+                  onChange={(e) => {
+                    this.handleCheckboxChange(e);
+                  }}
+                  // required
                 />{" "}
                 <label
                   htmlFor="check-tnc"
