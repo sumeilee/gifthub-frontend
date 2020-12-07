@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { withCookies } from "react-cookie";
 import moment from "moment";
 import api from "../../../services/api";
+import ErrorMsg from "../../ErrorMsg";
 // import css later
 
 class Donate extends React.Component {
@@ -17,6 +18,7 @@ class Donate extends React.Component {
       checkDelivery: false,
       checkTnc: false,
       errMsg: "",
+      formErr: "",
     };
   }
 
@@ -33,6 +35,12 @@ class Donate extends React.Component {
   async handleSubmit() {
     let errMsg = "";
 
+    if (!this.state.dateAvailable) {
+      errMsg += "Date of availability is required. ";
+    }
+    if (this.state.description === "") {
+      errMsg += "Description is required. ";
+    }
     if (!this.state.checkCondition) {
       errMsg += "Please confirm that the item is in good working condition. ";
     }
@@ -49,6 +57,7 @@ class Donate extends React.Component {
       console.log(errMsg);
       this.setState({
         errMsg,
+        formErr: "Error in form, please check values",
       });
     } else {
       let message = "I would like to donate this item.";
@@ -200,6 +209,7 @@ class Donate extends React.Component {
           </label>
         </div>
         <br />
+        {this.state.errMsg !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
         <button
           type="submit"
           onClick={() => this.handleSubmit()}
