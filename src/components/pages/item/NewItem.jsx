@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "axios";
 import { withCookies } from "react-cookie";
 import api from "../../../services/api";
+import FormMsg from "./FormMsg";
 // import css later
 
 class NewItem extends React.Component {
@@ -21,6 +21,9 @@ class NewItem extends React.Component {
       // user: user, //update later
       // formData: [], //add later
       me: {},
+      checkCondition: false,
+      checkTnc: false,
+      formMsg: [],
     };
   }
 
@@ -31,41 +34,32 @@ class NewItem extends React.Component {
     this.setState(state);
   }
 
-  //add form validation later
+  handleCheckboxChange(e) {
+    this.setState({
+      [e.target.name]: e.target.checked,
+    });
+  }
 
   handleFormSubmit(e) {
     e.preventDefault();
-
-    axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
-      "token"
-    );
-
-    // // clear form messages
-    // this.setState({
-    //     formMsg: [],
-    // });
+    api.setAuthHeaderToken(this.props.cookies.get("token"));
+    // clear form messages
+    this.setState({
+      formMsg: [],
+    });
 
     const formData = {
       postType: this.state.postType,
       title: this.state.title,
       description: this.state.description,
       category: this.state.category,
-      // images: this.state.images,
+      // images: this.state.images, //KIV
       tags: this.state.tags,
       delivery: this.state.delivery,
       // postedBy: user._id, //store in backend
     };
 
-    // axios
-    //   .post("http://localhost:5000/api/v1/items", qs.stringify(formData))
-    //   .then((result) => {
-    //     // console.log(result);
-    //     console.log(formData);
-    //     console.log("form submitted successfully");
-    //   });
-
-    // add form validation later
-    const formValid = true; // update later
+    const formValid = this.validateFormInputs();
 
     if (formValid) {
       api
@@ -73,16 +67,20 @@ class NewItem extends React.Component {
         .then((response) => {
           console.log(response.data);
           console.log("new item submitted successfully");
-          // // clear form input
-          // this.setState({
-          //   postType: "",
-          //   title: "",
-          //   description: "",
-          //   category: "",
-          //   // images: "",
-          //   tags: "",
-          //   delivery: "",
-          // });
+          this.setState({
+            showFormMsg: true,
+          });
+          this.scrollToTop();
+          // clear form input
+          this.setState({
+            postType: "",
+            title: "",
+            description: "",
+            category: "",
+            // images: "",
+            tags: "",
+            delivery: "",
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -90,11 +88,65 @@ class NewItem extends React.Component {
     }
   }
 
+  validateFormInputs() {
+    const errMsg = [];
+    //pending check for special char
+    //pending stringify submission values
+
+    if (this.state.postType === "") {
+      errMsg.push("Type is required");
+    }
+    if (this.state.title === "") {
+      errMsg.push("Title is required");
+    } else if (this.state.title.length > 200) {
+      errMsg.push("Title must be 200 characters or less");
+    }
+    if (this.state.description === "") {
+      errMsg.push("Description is required");
+    }
+    if (this.state.category === "") {
+      errMsg.push("Category is required");
+    }
+    if (this.state.status === "") {
+      errMsg.push("Status is required");
+    }
+    if (this.state.delivery === "") {
+      errMsg.push("Delivery is required");
+    }
+    if (!this.state.checkCondition) {
+      errMsg.push("Please confirm that the item is in good working condition.");
+    }
+    if (!this.state.checkTnc) {
+      errMsg.push("Please accept the terms & conditions.");
+    }
+
+    if (errMsg.length === 0) {
+      return true;
+    }
+
+    this.setState({
+      formMsg: errMsg,
+    });
+    console.log(errMsg);
+    return false;
+  }
+
+  scrollToTop = () => {
+    this.pageTop.scrollIntoView({ behavior: "smooth" });
+  };
+
   render() {
     return (
-      <div className="page-donate container mx-auto px-10 flex flex-col">
+      <div
+        className="page-donate container mx-auto px-10 flex flex-col"
+        ref={(elem) => {
+          this.pageTop = elem;
+        }}
+      >
         <br />
         <div className="container-item border-2 px-4 py-8 mx-4 my-4 rounded-lg border-yellow-300 border-opacity-75 shadow overflow-hidden">
+          {/* // Toggle Form Msg display */}
+          {this.state.showFormMsg ? <FormMsg /> : null}
           <p className="text-xl font-bold text-center">Submit New Item</p>
           <br />
           <form
@@ -118,6 +170,7 @@ class NewItem extends React.Component {
                 onChange={(e) => {
                   this.handleInputChange(e);
                 }}
+                required
               >
                 <option value="">-----</option>
                 <option value="Request">Request</option>
@@ -142,6 +195,7 @@ class NewItem extends React.Component {
                   this.handleInputChange(e);
                 }}
                 placeholder=""
+                required
               />
             </div>
             {/* //=== Description ==== // */}
@@ -162,6 +216,7 @@ class NewItem extends React.Component {
                   this.handleInputChange(e);
                 }}
                 placeholder=""
+                required
               ></textarea>
             </div>
             {/* //=== Category ==== // */}
@@ -180,6 +235,7 @@ class NewItem extends React.Component {
                 onChange={(e) => {
                   this.handleInputChange(e);
                 }}
+                required
               >
                 <option value="">-----</option>
                 <option value="Furniture">Furniture</option>
@@ -196,8 +252,8 @@ class NewItem extends React.Component {
                 className="inline-flex text-base font-medium text-gray-700"
               >
                 Images:
-              </label>{" "}
-              <input
+              </label>{" "} */}
+            {/* <input
                 type="file"
                 className="form-control-file"
                 id="images"
@@ -206,8 +262,8 @@ class NewItem extends React.Component {
                 onChange={(e) => {
                   this.handleInputChange(e);
                 }} //check if works later
-              />
-            </div> */}
+              /> */}
+            {/* </div> */}
             {/* //=== Tags ==== // */}
             <div className="mt-2">
               <label
@@ -245,6 +301,7 @@ class NewItem extends React.Component {
                   this.handleInputChange(e);
                 }}
                 placeholder=""
+                required
               >
                 <option value="">-----</option>
                 <option value="Included">Included</option>
@@ -257,7 +314,11 @@ class NewItem extends React.Component {
                 type="checkbox"
                 className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
                 id="check-item-condition"
-                name="check-item-condition"
+                name="checkCondition"
+                onChange={(e) => {
+                  this.handleCheckboxChange(e);
+                }}
+                required
               />{" "}
               <label
                 for="check-item-condition"
@@ -272,7 +333,11 @@ class NewItem extends React.Component {
                 type="checkbox"
                 className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
                 id="check-tnc"
-                name="check-tnc"
+                name="checkTnc"
+                onChange={(e) => {
+                  this.handleCheckboxChange(e);
+                }}
+                required
               />{" "}
               <label
                 for="check-tnc"

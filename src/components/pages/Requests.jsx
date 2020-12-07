@@ -14,25 +14,29 @@ class Requests extends React.Component {
     super(props);
     this.state = {
       list: [],
-      me: {},
+      // me: {},
+      user: null,
     };
   }
 
   componentDidMount() {
     const token = this.props.cookies.get("token");
-    const me = jwt.decode(token);
+    // const me = jwt.decode(token);
+    let user = null;
+
+    if (token) {
+      user = jwt.decode(token);
+    }
+    api.setAuthHeaderToken(token);
 
     api.listRequests().then((response) => {
       this.setState({
         list: response.data,
-        me,
+        // me,
+        user: user,
       });
     });
   }
-
-  // listRequests() {
-  //   return axios.get("http://localhost:5000/api/v1/requests");
-  // }
 
   async handleChatClick(users, item) {
     try {
@@ -93,12 +97,16 @@ class Requests extends React.Component {
                           <br />
                         </p>
                         <br />
-                        <p>
-                          Posted By:{" "}
-                          {element.postedBy
-                            ? `${element.postedBy.first_name} ${element.postedBy.last_name}`
-                            : ""}
-                        </p>
+                        {this.state.user.id === element.postedBy._id ? (
+                          <p className="item-owner">
+                            Posted By: <b className="text-red-800">You</b>
+                          </p>
+                        ) : (
+                          <p>
+                            Posted By:{" "}
+                            {`${element.postedBy.first_name} ${element.postedBy.last_name}`}
+                          </p>
+                        )}
                       </div>
                       <div className="col2">
                         <br />
