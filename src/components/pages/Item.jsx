@@ -17,9 +17,8 @@ class Item extends React.Component {
       user: null,
       isItemOwner: false,
       itemID: null,
-      showDonate: this.props.showDonate || false, // not working, to check
+      showDonate: this.props.showDonate || false,
       showRequest: this.props.showRequest || false,
-      // showClick: true,
     };
     this.handleDonateClick = this.handleDonateClick.bind(this);
     this.handleRequestClick = this.handleRequestClick.bind(this);
@@ -28,14 +27,11 @@ class Item extends React.Component {
   componentDidMount() {
     const itemID = this.props.match.params.id;
     // console.log(itemID);
-
     const token = this.props.cookies.get("token");
     let user = null;
-
     if (token) {
       user = jwt.decode(token);
     }
-
     api.setAuthHeaderToken(token);
 
     this.getItem(itemID).then((response) => {
@@ -153,6 +149,7 @@ class Item extends React.Component {
                   />
                 </div> */}
                 <br />
+                {/* // Toggle Donate Btn Display */}
                 {this.state.item.postType === "Request" &&
                 !this.state.isItemOwner ? (
                   <button
@@ -162,7 +159,8 @@ class Item extends React.Component {
                     Donate
                   </button>
                 ) : null}
-                {this.state.item.postType === "Donate" &&
+                {/* // Toggle Request Btn Display */}
+                {this.state.item.postType === "Offer" &&
                 !this.state.isItemOwner ? (
                   <button
                     onClick={this.handleRequestClick}
@@ -171,7 +169,7 @@ class Item extends React.Component {
                     Request
                   </button>
                 ) : null}
-                {/* // Toggle Chat Display */}
+                {/* // Toggle Chat Btn Display */}
                 {!this.state.isItemOwner ? (
                   <button
                     type="submit"
@@ -191,22 +189,15 @@ class Item extends React.Component {
               </div>
             </div>
             <br />
-            {/* // Toggle Donate Btn */}
+            {/* // Toggle Donate Form Display */}
             {this.state.showDonate ? (
               <Donate user={this.state.user} item={this.state.item} />
             ) : null}
 
-            {/* // Toggle Request Btn */}
+            {/* // Toggle Request Form Display */}
             {this.state.showRequest ? (
               <Request user={this.state.user} item={this.state.item} />
             ) : null}
-
-            {/* {this.state.showClick &&
-                        this.state.item.postType === "Request" ? (
-                            <Donate user={this.state.user} />
-                        ) : (
-                            <Request user={this.state.user} />
-                        )} */}
           </div>
         ) : (
           <p>No such item found.</p>
