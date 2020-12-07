@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "axios";
 import { withCookies } from "react-cookie";
+import jwt from "jsonwebtoken";
 import api from "../../../services/api";
 import FormMsg from "./FormMsg";
 
@@ -11,7 +11,8 @@ class EditItem extends React.Component {
     super(props);
     this.state = {
       item: null,
-      // user: this.props.user,
+      user: null,
+      isItemOwner: false,
       checkCondition: false,
       checkTnc: false,
       formMsg: [],
@@ -19,25 +20,33 @@ class EditItem extends React.Component {
     };
   }
 
-  //add form validation later
-
   componentDidMount() {
     const itemID = this.props.match.params.id;
-    console.log("itemID: " + itemID);
-    console.log("curr_user:" + this.props.user);
-    axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
-      "token"
-    );
+
+    // verify logged in user
+    const auth_token = this.props.cookies.get("token");
+    let currUser = null;
+    if (auth_token) {
+      currUser = jwt.decode(auth_token);
+    }
+    api.setAuthHeaderToken(auth_token);
+    console.log(currUser.id);
 
     api.getItem(itemID).then((response) => {
-      // console.log(response.data);
+      const itemOwner = response.data.postedBy._id;
+      console.log(itemOwner);
+
+      // verify if logged in user is authorized to edit post
+      if (currUser.id !== itemOwner) {
+        this.props.history.push("/user/dashboard");
+        return;
+      }
 
       this.setState({
         item: response.data,
-        // user: this.props.user._id,
+        user: currUser,
+        isItemOwner: true,
       });
-
-      // check if user is owner of post later
     });
   }
 
@@ -53,20 +62,10 @@ class EditItem extends React.Component {
     });
   }
 
-  // getItem(itemID) {
-  //   return axios.get("http://localhost:5000/api/v1/items/" + itemID);
-  // }
-
-  // add authentication of post owner later
-
   handleFormSubmit(e) {
     e.preventDefault();
-    axios.defaults.headers.common["auth_token"] = this.props.cookies.get(
-      "token"
-    );
     // clear form messages
     this.setState({
-      // user: this.state.item.postedBy._id, //to update later
       formMsg: [],
     });
 
@@ -74,20 +73,6 @@ class EditItem extends React.Component {
     // console.log(itemID);
     const formData = this.state.item;
     console.log(formData);
-
-    // axios
-    //   .patch(
-    //     "http://localhost:5000/api/v1/items/" + itemID,
-    //     qs.stringify(formData)
-    //   )
-    //   .then((result) => {
-    //     // console.log("new result" + result);
-    //     console.log(formData);
-    //     console.log("edit form submitted successfully");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
 
     const formValid = this.validateFormInputs();
 
@@ -195,7 +180,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
-                  // required
+                  required
                   // placeholder={this.state.item.postType}
                 >
                   <option value="">-----</option>
@@ -220,7 +205,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
-                  // required
+                  required
                   // placeholder={this.state.item.title}
                 />
               </div>
@@ -241,7 +226,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
-                  // required
+                  required
                   // placeholder={this.state.item.description}
                 ></textarea>
               </div>
@@ -261,7 +246,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
-                  // required
+                  required
                   // placeholder={this.state.item.category}
                 >
                   <option value="">-----</option>
@@ -276,18 +261,24 @@ class EditItem extends React.Component {
               </div>
               {/* //=== Images ==== // */}
               {/* <div className="mt-2">
-                <label htmlFor="images" className="inline-flex text-base font-medium text-gray-700">
+                <label
+                  htmlFor="images"
+                  className="inline-flex text-base font-medium text-gray-700"
+                >
                   Images:
-                </label>{" "}
+                </label>
+                <br />
                 <input
                   type="file"
                   className="form-control-file"
                   id="images"
                   name="images"
+                  accept=".png, .jpg, .jpeg"
                   value={this.state.item.images}
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }} //not working, to check
+                  multiple //note to set limit on num of images
                   // placeholder={this.state.item.images}
                 />
               </div> */}
@@ -307,7 +298,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
-                  // required
+                  required
                   // placeholder={this.state.item.delivery}
                 >
                   <option value="">-----</option>
@@ -331,7 +322,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleInputChange(e);
                   }}
-                  // required
+                  required
                   // placeholder={this.state.item.status}
                 >
                   <option value="">-----</option>
@@ -370,7 +361,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleCheckboxChange(e);
                   }}
-                  // required
+                  required
                 />{" "}
                 <label
                   htmlFor="check-item-condition"
@@ -389,7 +380,7 @@ class EditItem extends React.Component {
                   onChange={(e) => {
                     this.handleCheckboxChange(e);
                   }}
-                  // required
+                  required
                 />{" "}
                 <label
                   htmlFor="check-tnc"
