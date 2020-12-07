@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { withCookies } from "react-cookie";
 import moment from "moment";
 import api from "../../../services/api";
+import ErrorMsg from "../../ErrorMsg";
 // import css later
 
 class Request extends React.Component {
@@ -17,6 +18,7 @@ class Request extends React.Component {
       checkDelivery: false,
       checkTnc: false,
       errMsg: "",
+      formErr: "",
     };
   }
 
@@ -33,6 +35,12 @@ class Request extends React.Component {
   async handleSubmit() {
     let errMsg = "";
 
+    if (!this.state.dateNeeded) {
+      errMsg += "Date needed is required.";
+    }
+    if (this.state.reason === "") {
+      errMsg += "Reason is required. ";
+    }
     if (!this.state.checkTnc) {
       errMsg += "Please accept the terms & conditions.";
     }
@@ -41,6 +49,7 @@ class Request extends React.Component {
       console.log(errMsg);
       this.setState({
         errMsg,
+        formErr: "Error in form, please check values",
       });
     } else {
       let message = "I would like to request this item.";
@@ -145,6 +154,7 @@ class Request extends React.Component {
           </label>
         </div>
         <br />
+        {this.state.errMsg !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
         <button
           type="submit"
           onClick={() => this.handleSubmit()}
