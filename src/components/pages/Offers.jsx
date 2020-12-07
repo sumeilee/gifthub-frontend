@@ -21,14 +21,12 @@ class Offers extends React.Component {
     const token = this.props.cookies.get("token");
     // const me = jwt.decode(token);
     let user = null;
-
     if (token) {
       user = jwt.decode(token);
     }
     api.setAuthHeaderToken(token);
 
     api.listOffers().then((response) => {
-      //   console.log(response.data);
       this.setState({
         list: response.data,
         // me,
@@ -123,18 +121,21 @@ class Offers extends React.Component {
                         >
                           View Item
                         </Link>
-                        <button
-                          type="submit"
-                          onClick={() =>
-                            this.handleChatClick(
-                              [this.state.user.id, element.postedBy._id],
-                              element._id
-                            )
-                          }
-                          className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
-                        >
-                          Chat
-                        </button>
+                        {/* // Toggle Chat Btn Display */}
+                        {this.state.user.id !== element.postedBy._id ? (
+                          <button
+                            type="submit"
+                            onClick={() =>
+                              this.handleChatClick(
+                                [this.state.user.id, element.postedBy._id],
+                                element._id
+                              )
+                            }
+                            className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
+                          >
+                            Chat
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>

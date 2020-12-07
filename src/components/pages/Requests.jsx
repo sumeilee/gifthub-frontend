@@ -124,18 +124,21 @@ class Requests extends React.Component {
                         >
                           View Item
                         </Link>
-                        <button
-                          type="submit"
-                          onClick={() =>
-                            this.handleChatClick(
-                              [this.state.user.id, element.postedBy._id],
-                              element._id
-                            )
-                          }
-                          className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
-                        >
-                          Chat
-                        </button>
+                        {/* // Toggle Chat Btn Display */}
+                        {this.state.user.id !== element.postedBy._id ? (
+                          <button
+                            type="submit"
+                            onClick={() =>
+                              this.handleChatClick(
+                                [this.state.user.id, element.postedBy._id],
+                                element._id
+                              )
+                            }
+                            className="inline-flex justify-center text-gray-800 font-semibold mx-3 px-4 py-2 rounded-md bg-yellow-300 hover:bg-yellow-400 focus:outline-none"
+                          >
+                            Chat
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>
