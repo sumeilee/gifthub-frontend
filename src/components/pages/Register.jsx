@@ -5,6 +5,8 @@ import qs from "qs";
 import FormInput from "./../form/FormInput";
 import ErrorMsg from "../ErrorMsg";
 
+import { baseURL } from "../../services/api";
+
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +32,7 @@ class Register extends React.Component {
 
     axios
       .post(
-        "http://localhost:5000/api/v1/user/register",
+        `${baseURL}/user/register`,
         qs.stringify({
           firstName: this.state.firstName,
           lastName: this.state.lastName,
@@ -67,7 +69,9 @@ class Register extends React.Component {
             this.handleFormSubmission(e);
           }}
         >
-          <h1 className="  mb-10 text-center text-3xl font-bold justify-between">Register </h1>
+          <h1 className="  mb-10 text-center text-3xl font-bold justify-between">
+            Register{" "}
+          </h1>
 
           <FormInput
             type="text"
@@ -109,7 +113,11 @@ class Register extends React.Component {
             }}
           />
 
-          {this.state.formErr !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
+          {this.state.formErr !== "" ? (
+            <ErrorMsg msg={this.state.formErr} />
+          ) : (
+            ""
+          )}
           <button
             type="submit"
             className="w-40 rounded-lg py-1 px-3 mt-8 bg-yellow-400 hover:bg-yellow-500 focus:outline-none"
