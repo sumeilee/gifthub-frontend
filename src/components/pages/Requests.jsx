@@ -97,16 +97,22 @@ class Requests extends React.Component {
                           <br />
                         </p>
                         <br />
-                        {this.state.user.id === element.postedBy._id ? (
-                          <p className="item-owner">
-                            Posted By: <b className="text-red-800">You</b>
-                          </p>
-                        ) : (
+                        {/* // Toggle Item Owner Display */}
+                        {!this.state.user ||
+                        this.state.user.id !== element.postedBy._id ? (
                           <p>
                             Posted By:{" "}
                             {`${element.postedBy.first_name} ${element.postedBy.last_name}`}
                           </p>
+                        ) : (
+                          <p className="item-owner">
+                            Posted By: <b className="text-red-800">You</b>
+                          </p>
                         )}
+                        {/* <p>
+                          Posted By:{" "}
+                          {`${element.postedBy.first_name} ${element.postedBy.last_name}`}
+                        </p> */}
                       </div>
                       <div className="col2">
                         <br />
@@ -125,7 +131,8 @@ class Requests extends React.Component {
                           View
                         </Link>
                         {/* // Toggle Chat Btn Display */}
-                        {this.state.user.id !== element.postedBy._id ? (
+                        {!this.state.user ||
+                        this.state.user.id !== element.postedBy._id ? (
                           <button
                             type="submit"
                             onClick={() =>

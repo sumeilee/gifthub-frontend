@@ -44,7 +44,7 @@ class Item extends React.Component {
         itemID: itemID,
       });
 
-      if (user.id === itemOwner) {
+      if (user !== null && user.id === itemOwner) {
         this.setState({
           isItemOwner: true,
         });
