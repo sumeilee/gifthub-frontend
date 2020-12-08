@@ -57,7 +57,7 @@ class Donate extends React.Component {
       console.log(errMsg);
       this.setState({
         errMsg,
-        formErr: "Error in form, please check values",
+        formErr: errMsg,
       });
     } else {
       let message = "I would like to donate this item.";
@@ -209,7 +209,13 @@ class Donate extends React.Component {
           </label>
         </div>
         <br />
-        {this.state.errMsg !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
+        {this.state.errMsg !== "" ? (
+          <div className="mb-3">
+            <ErrorMsg msg={this.state.formErr} />
+          </div>
+        ) : (
+          ""
+        )}
         <button
           type="submit"
           onClick={() => this.handleSubmit()}

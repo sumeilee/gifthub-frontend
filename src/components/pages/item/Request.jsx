@@ -36,7 +36,7 @@ class Request extends React.Component {
     let errMsg = "";
 
     if (!this.state.dateNeeded) {
-      errMsg += "Date needed is required.";
+      errMsg += "Date needed is required. ";
     }
     if (this.state.reason === "") {
       errMsg += "Reason is required. ";
@@ -49,7 +49,7 @@ class Request extends React.Component {
       console.log(errMsg);
       this.setState({
         errMsg,
-        formErr: "Error in form, please check values",
+        formErr: errMsg,
       });
     } else {
       let message = "I would like to request this item.";
@@ -154,7 +154,13 @@ class Request extends React.Component {
           </label>
         </div>
         <br />
-        {this.state.errMsg !== "" ? <ErrorMsg msg={this.state.formErr} /> : ""}
+        {this.state.errMsg !== "" ? (
+          <div className="mb-3">
+            <ErrorMsg msg={this.state.formErr} />
+          </div>
+        ) : (
+          ""
+        )}
         <button
           type="submit"
           onClick={() => this.handleSubmit()}
