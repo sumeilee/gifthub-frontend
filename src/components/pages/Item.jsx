@@ -1,7 +1,6 @@
 import React from "react";
 import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
 import jwt from "jsonwebtoken";
 import Donate from "./item/Donate";
 import Request from "./item/Request";
@@ -54,7 +53,7 @@ class Item extends React.Component {
   }
 
   getItem(itemID) {
-    return axios.get("http://localhost:5000/api/v1/items/" + itemID);
+    return api.getItem(itemID);
   }
 
   handleDonateClick() {

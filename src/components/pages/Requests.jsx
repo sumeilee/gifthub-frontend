@@ -38,8 +38,13 @@ class Requests extends React.Component {
     });
   }
 
-  async handleChatClick(users, item) {
+  async handleChatClick(postedById, item) {
+    if (!this.state.user) {
+      this.props.history.push("/login");
+      return;
+    }
     try {
+      const users = [this.state.user.id, postedById];
       await api.getOrCreateConversation(users, item);
       // setCurrentConversation(conversation);
 
@@ -137,7 +142,7 @@ class Requests extends React.Component {
                             type="submit"
                             onClick={() =>
                               this.handleChatClick(
-                                [this.state.user.id, element.postedBy._id],
+                                element.postedBy._id,
                                 element._id
                               )
                             }
