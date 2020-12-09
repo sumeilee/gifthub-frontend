@@ -16,12 +16,13 @@ class NewItem extends React.Component {
       category: "",
       images: "",
       tags: "",
-      delivery: "",
+      // delivery: "", //default
       postedBy: "",
       // user: user, //update later
       // formData: [], //add later
       me: {},
       checkCondition: false,
+      checkDelivery: false,
       checkTnc: false,
       formMsg: [],
     };
@@ -79,7 +80,7 @@ class NewItem extends React.Component {
             category: "",
             // images: "",
             tags: "",
-            delivery: "",
+            // delivery: "", //default
           });
         })
         .catch((err) => {
@@ -110,11 +111,19 @@ class NewItem extends React.Component {
     if (this.state.status === "") {
       errMsg.push("Status is required");
     }
-    if (this.state.delivery === "") {
-      errMsg.push("Delivery is required");
-    }
-    if (!this.state.checkCondition) {
-      errMsg.push("Please confirm that the item is in good working condition.");
+    // if (this.state.delivery === "") {
+    //   errMsg.push("Delivery is required");
+    // }
+
+    if (this.state.postType === "Offer") {
+      if (!this.state.checkDelivery) {
+        errMsg.push("Please confirm that delivery is included.");
+      }
+      if (!this.state.checkCondition) {
+        errMsg.push(
+          "Please confirm that the item is in good working condition."
+        );
+      }
     }
     if (!this.state.checkTnc) {
       errMsg.push("Please accept the terms & conditions.");
@@ -285,7 +294,7 @@ class NewItem extends React.Component {
               />
             </div>
             {/* //=== Delivery ==== // */}
-            <div className="mt-2">
+            {/* <div className="mt-2">
               <label
                 htmlFor="delivery"
                 className="text-base font-medium text-gray-700"
@@ -307,27 +316,48 @@ class NewItem extends React.Component {
                 <option value="Included">Included</option>
                 <option value="Not included">Not included</option>
               </select>
-            </div>
-            {/* //=== Checkbox 1 ==== // */}
-            <div className="mt-4">
-              <input
-                type="checkbox"
-                className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
-                id="check-item-condition"
-                name="checkCondition"
-                onChange={(e) => {
-                  this.handleCheckboxChange(e);
-                }}
-                required
-              />{" "}
-              <label
-                for="check-item-condition"
-                className="text-base font-medium text-gray-700"
-              >
-                Item to be donated is in good working condition.
-              </label>
-            </div>
-            {/* //=== Checkbox 2 ==== // */}
+            </div> */}
+
+            {this.state.postType === "Offer" ? (
+              <div>
+                {/* //=== Checkbox 1 ==== // */}
+                <div className="mt-4">
+                  <input
+                    type="checkbox"
+                    className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
+                    id="check-item-condition"
+                    name="checkCondition"
+                    onChange={(e) => {
+                      this.handleCheckboxChange(e);
+                    }}
+                    required
+                  />{" "}
+                  <label
+                    for="check-item-condition"
+                    className="text-base font-medium text-gray-700"
+                  >
+                    Item to be donated is in good working condition.
+                  </label>
+                </div>
+                {/* //=== Checkbox 2 ==== // */}
+                <div className="mt-2">
+                  <input
+                    type="checkbox"
+                    onChange={(e) => this.handleInputChange(e)}
+                    className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
+                    id="check-delivery"
+                    name="checkDelivery"
+                  />{" "}
+                  <label
+                    htmlFor="check-delivery"
+                    className="text-base font-medium text-gray-700"
+                  >
+                    Delivery of item will be included.
+                  </label>
+                </div>
+              </div>
+            ) : null}
+            {/* //=== Checkbox 3 ==== // */}
             <div className="mt-2">
               <input
                 type="checkbox"
@@ -343,7 +373,7 @@ class NewItem extends React.Component {
                 for="check-tnc"
                 className="text-base font-medium text-gray-700"
               >
-                Yes, I agree to Gifthub's terms & conditions for donations.
+                Yes, I agree to Gifthub's terms & conditions.
               </label>
             </div>
             <br />

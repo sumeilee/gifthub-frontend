@@ -121,8 +121,12 @@ class EditItem extends React.Component {
     if (this.state.item.delivery === "") {
       errMsg.push("Delivery is required");
     }
-    if (!this.state.checkCondition) {
-      errMsg.push("Please confirm that the item is in good working condition.");
+    if (this.state.item.postType === "Offer") {
+      if (!this.state.checkCondition) {
+        errMsg.push(
+          "Please confirm that the item is in good working condition."
+        );
+      }
     }
     if (!this.state.checkTnc) {
       errMsg.push("Please accept the terms & conditions.");
@@ -351,25 +355,27 @@ class EditItem extends React.Component {
                   // placeholder={this.state.item.tags}
                 />
               </div>
-              {/* //=== Checkbox 1 ==== // */}
-              <div className="mt-4">
-                <input
-                  type="checkbox"
-                  className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
-                  id="check-item-condition"
-                  name="checkCondition"
-                  onChange={(e) => {
-                    this.handleCheckboxChange(e);
-                  }}
-                  required
-                />{" "}
-                <label
-                  htmlFor="check-item-condition"
-                  className="text-base font-medium text-gray-700"
-                >
-                  Item to be donated is in good working condition.
-                </label>
-              </div>
+              {this.state.item.postType === "Offer" ? (
+                /* //=== Checkbox 1 ==== // */
+                <div className="mt-4">
+                  <input
+                    type="checkbox"
+                    className="inline-flex h-4 w-4 border-gray-500 border-2 rounded-md"
+                    id="check-item-condition"
+                    name="checkCondition"
+                    onChange={(e) => {
+                      this.handleCheckboxChange(e);
+                    }}
+                    required
+                  />{" "}
+                  <label
+                    htmlFor="check-item-condition"
+                    className="text-base font-medium text-gray-700"
+                  >
+                    Item to be donated is in good working condition.
+                  </label>
+                </div>
+              ) : null}
               {/* //=== Checkbox 2 ==== // */}
               <div className="mt-2">
                 <input
