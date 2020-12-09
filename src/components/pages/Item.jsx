@@ -36,9 +36,9 @@ class Item extends React.Component {
     api.setAuthHeaderToken(token);
 
     this.getItem(itemID).then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       const itemOwner = response.data.postedBy._id;
-      console.log(itemOwner);
+      // console.log(itemOwner);
       this.setState({
         loading: false,
         item: response.data,
@@ -51,7 +51,7 @@ class Item extends React.Component {
           isItemOwner: true,
         });
       }
-      console.log(this.state.isItemOwner);
+      // console.log(this.state.isItemOwner);
     });
   }
 
