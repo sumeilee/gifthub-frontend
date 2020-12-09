@@ -48,7 +48,7 @@ const App = () => {
   useEffect(() => {
     if (socket) {
       socket.on("connect", () => {
-        console.log(`new connection ${socket.id}`);
+        //console.log(`new connection ${socket.id}`);
         if (user) {
           socket.emit("login", user.id);
         }

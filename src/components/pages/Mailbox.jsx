@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import { withCookies } from "react-cookie";
 import jwt from "jsonwebtoken";
+import Loader from "react-loader-spinner";
 
 import ConversationList from "../mailbox/ConversationList";
 import ChatScreen from "../mailbox/ChatScreen";
@@ -17,6 +18,7 @@ const Mailbox = (props) => {
   const [currentConversation, setCurrentConversation] = useState(null);
   const [me, setMe] = useState(null);
   let [counter, setCounter] = useState(0);
+  const [loading, setLoading] = useState(true);
   const { currentSocket } = useContext(SocketContext);
 
   const messageRerender = async (message) => {
@@ -60,6 +62,7 @@ const Mailbox = (props) => {
         const conversations = response.data.conversations;
 
         setConversations(conversations);
+        setLoading(false);
       }
     } catch (err) {
       console.log(err);
@@ -100,37 +103,45 @@ const Mailbox = (props) => {
 
   return (
     <>
-      {conversations.length > 0 ? (
-        <MailboxContext.Provider
-          value={{
-            currentConversation,
-            setCurrentConversation,
-            getConversations,
-            me,
-            setMe,
-            counter,
-          }}
-        >
-          <div className="h-full flex overflow-auto items-start divide-x divide-gray-200 divide-solid p-6">
-            <div className="h-full w-3/12 overflow-auto">
-              <ConversationList conversations={conversations} />
-            </div>
-            <div className="h-full flex w-5/12 px-4 py-3 overflow-auto">
-              <ChatScreen />
-            </div>
-            <div className="flex flex-col h-full w-4/12 py-3 overflow-auto">
-              <div className="px-6">
-                <ItemPreview />
-              </div>
-            </div>
-          </div>
-        </MailboxContext.Provider>
-      ) : (
-        <div className="h-full w-full flex items-start justify-center py-8 px-4">
-          <h1 className="text-2xl text-gray-800 font-semibold">
-            Mailbox is empty
-          </h1>
+      {loading ? (
+        <div className="flex justify-center">
+          <Loader type="Hearts" color="#DB2777" height={80} width={80} />
         </div>
+      ) : (
+        <>
+          {conversations.length > 0 ? (
+            <MailboxContext.Provider
+              value={{
+                currentConversation,
+                setCurrentConversation,
+                getConversations,
+                me,
+                setMe,
+                counter,
+              }}
+            >
+              <div className="h-full flex overflow-auto items-start divide-x divide-gray-200 divide-solid p-6">
+                <div className="h-full w-3/12 overflow-auto">
+                  <ConversationList conversations={conversations} />
+                </div>
+                <div className="h-full flex w-5/12 px-4 py-3 overflow-auto">
+                  <ChatScreen />
+                </div>
+                <div className="flex flex-col h-full w-4/12 py-3 overflow-auto">
+                  <div className="px-6">
+                    <ItemPreview />
+                  </div>
+                </div>
+              </div>
+            </MailboxContext.Provider>
+          ) : (
+            <div className="h-full w-full flex items-start justify-center py-8 px-4">
+              <h1 className="text-2xl text-gray-800 font-semibold">
+                Mailbox is empty
+              </h1>
+            </div>
+          )}
+        </>
       )}
     </>
   );
