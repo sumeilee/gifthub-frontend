@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { io } from "socket.io-client";
+import React, {useEffect, useState, useContext} from "react";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {io} from "socket.io-client";
 
 import "./App.css";
 
@@ -43,7 +43,7 @@ try {
 
 const App = () => {
   const [currentSocket, setCurrentSocket] = useState(null);
-  const { user } = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
     if (socket) {
@@ -59,7 +59,7 @@ const App = () => {
 
   return (
     <div className="flex flex-col justify-between h-full">
-      <SocketContext.Provider value={{ currentSocket, setCurrentSocket }}>
+      <SocketContext.Provider value={{currentSocket, setCurrentSocket}}>
         <Router>
           <Header />
           <Switch>
@@ -72,10 +72,11 @@ const App = () => {
             <ProtectedRoute path="/mailbox" component={Mailbox} />
 
             {/* User Routes */}
-            <GuestRoute path="/login" component={Login} />
-            <Route path="/register" component={Register} />
             <ProtectedRoute path="/user/editprofile" component={EditProfile} />
             <ProtectedRoute path="/user/dashboard" component={Dashboard} />
+            <GuestRoute path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+
             <Route path="/">
               <Home />
             </Route>

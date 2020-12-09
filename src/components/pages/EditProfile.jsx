@@ -62,7 +62,10 @@ class EditProfile extends React.Component {
 
   handlePasswordChange(e) {
     this.setState({
-      password: e.target.value,
+      user: {
+        ...this.state.user,
+        password: e.target.value,
+      },
     });
   }
 
@@ -77,7 +80,6 @@ class EditProfile extends React.Component {
 
   handleFormSubmission(e) {
     e.preventDefault();
-    console.log(this.props.cookies.get("token"));
     axios
       .patch(
         `${baseURL}/users/me`,
